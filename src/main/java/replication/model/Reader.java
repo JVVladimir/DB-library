@@ -1,17 +1,49 @@
 package replication.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+import lombok.Getter;
+import lombok.ToString;
+
+import java.util.Set;
 
 @Entity
+@Table(name = "reader")
+@Getter
+@ToString
 public class Reader {
+
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(name = "r_id", unique = true)
+    private Long id;
+
+    @Column(name = "r_name")
     private String name;
+
+    @Column(name = "r_pasp", unique = true)
     private String pasp;
+
+    @Column(name = "r_address")
     private String address;
+
+    @Column(name = "r_phone")
     private String phone;
+
+    @Column(name = "r_mail")
     private String mail;
+
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(
+                    name = "r_id_lib",
+                    referencedColumnName = "l_id")
+    })
     private Library library;
+
+    @OneToMany
+    Set<Accounting> accountings;
+
+    @OneToMany
+    Set<Order> Orders;
 }

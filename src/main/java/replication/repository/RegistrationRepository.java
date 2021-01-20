@@ -1,10 +1,12 @@
 package replication.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import replication.model.Reader;
+import java.util.Optional;
 
-import java.util.List;
+public interface RegistrationRepository extends JpaRepository<Reader, Long> {
 
-public interface RegistrationRepository extends CrudRepository<Reader, Long> {
-    List<Reader> findByName(String name);
+    Optional<Reader> findById(Long id);
+
+    <S extends Reader> S save(S reader);
 }
