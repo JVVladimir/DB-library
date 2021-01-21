@@ -27,14 +27,13 @@ import java.util.HashMap;
 public class PersistenceSlaveNodeConfiguration {
 
     @Autowired
-    Environment environment;
+    private Environment environment;
 
     @Bean
     @ConfigurationProperties(prefix="slave")
     public DataSource slaveNodeDataSource() {
         return DataSourceBuilder.create().build();
     }
-
 
     @Bean
     public LocalContainerEntityManagerFactoryBean slaveNodeEntityManager(DataSource slaveNodeDataSource) {

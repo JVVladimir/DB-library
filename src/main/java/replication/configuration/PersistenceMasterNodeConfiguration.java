@@ -27,7 +27,7 @@ import java.util.HashMap;
 public class PersistenceMasterNodeConfiguration {
 
     @Autowired
-    Environment environment;
+    private Environment environment;
 
     @Primary
     @Bean

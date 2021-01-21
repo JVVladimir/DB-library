@@ -41,8 +41,8 @@ public class Reader {
     private Library library;
 
     @OneToMany
-    Set<Accounting> accountings;
+   Set<Accounting> accountings;
 
     @OneToMany
-    Set<replication.model.sharing.Orders> Orders;
+    Set<Orders> Orders;
 }

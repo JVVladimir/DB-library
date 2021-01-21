@@ -1,7 +1,8 @@
-package replication.model.sharing;
+package replication.model.consolidation;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import replication.model.sharing.Book;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,12 +12,9 @@ import java.io.Serializable;
 @Getter
 public class OrderId implements Serializable {
 
-
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "or_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "or_id_book", referencedColumnName = "b_id")
-    private Book book;
+    @Column(name = "or_id_book")
+    private Long book;
 }

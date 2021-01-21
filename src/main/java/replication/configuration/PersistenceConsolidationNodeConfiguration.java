@@ -13,17 +13,17 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import javax.sql.DataSource;
 
-/*
+
 @Configuration
 @PropertySource({ "classpath:persistence-multiple-db.properties" })
 @EnableJpaRepositories(
-        basePackages = "replication.repository",
+        basePackages = "replication.repository.consolidation",
         entityManagerFactoryRef = "consolidationNodeEntityManager",
         transactionManagerRef = "consolidationNodeTransactionManager"
-)*/
+)
 public class PersistenceConsolidationNodeConfiguration {
 
-/*
+
     @Bean
     @ConfigurationProperties(prefix="consolidation")
     public DataSource consolidationNodeDataSource() {
@@ -34,7 +34,7 @@ public class PersistenceConsolidationNodeConfiguration {
     public LocalContainerEntityManagerFactoryBean consolidationNodeEntityManager(DataSource consolidationNodeDataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(consolidationNodeDataSource);
-        em.setPackagesToScan(new String[] { "replication.model" });
+        em.setPackagesToScan("replication.model.consolidation");
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         return em;
@@ -45,5 +45,5 @@ public class PersistenceConsolidationNodeConfiguration {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(consolidationNodeEntityManager.getObject());
         return transactionManager;
-    }*/
+    }
 }

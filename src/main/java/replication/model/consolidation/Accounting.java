@@ -1,7 +1,8 @@
-package replication.model.sharing;
+package replication.model.consolidation;
 
 import lombok.Getter;
 import lombok.ToString;
+import replication.model.sharing.BooksInLibrary;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,14 +14,10 @@ import java.time.LocalDate;
 public class Accounting {
 
     @EmbeddedId
-    private AccountingId accountingId;
+    private AccountingId id;
 
-    @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "ac_id_book_in_lib", referencedColumnName = "bl_id"),
-            @JoinColumn(referencedColumnName = "bl_id_library")
-    })
-    private BooksInLibrary book;
+    @Column(name = "ac_id_book_in_lib")
+    private Long library;
 
     @Column(name = "ac_date_ext")
     private LocalDate dateExt;
@@ -31,6 +28,6 @@ public class Accounting {
     @Column(name = "ac_status")
     private String status;
 
-    @Column(name = "ac_fine")
+    @Column(name = "ac_fine", nullable = true)
     private Integer fine;
 }

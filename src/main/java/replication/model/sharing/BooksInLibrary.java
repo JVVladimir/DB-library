@@ -23,8 +23,4 @@ public class BooksInLibrary {
 
     @OneToMany
     Set<Accounting> accountings;
-
-    public BooksInLibrary() {
-
-    }
 }
