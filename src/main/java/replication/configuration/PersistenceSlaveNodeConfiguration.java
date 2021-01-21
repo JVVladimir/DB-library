@@ -42,7 +42,7 @@ public class PersistenceSlaveNodeConfiguration {
     public LocalContainerEntityManagerFactoryBean slaveNodeEntityManager(DataSource slaveNodeDataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(slaveNodeDataSource);
-        em.setPackagesToScan(new String[] { "replication.model" });
+        em.setPackagesToScan("replication.model");
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         final HashMap<String, Object> properties = new HashMap<String, Object>();
