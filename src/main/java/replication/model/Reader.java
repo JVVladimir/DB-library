@@ -45,5 +45,5 @@ public class Reader {
     Set<Accounting> accountings;
 
     @OneToMany
-    Set<Order> Orders;
+    Set<replication.model.Orders> Orders;
 }

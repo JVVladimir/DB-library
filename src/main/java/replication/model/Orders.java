@@ -3,15 +3,16 @@ package replication.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+
 import lombok.Getter;
 import lombok.ToString;
 
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @Getter
 @ToString
-public class Order {
+public class Orders {
 
     @EmbeddedId
     private OrderId orderId;

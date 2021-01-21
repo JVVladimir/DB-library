@@ -5,9 +5,9 @@ import replication.model.*;
 
 import java.util.Optional;
 
-public interface OrderRepository extends JpaRepository<Order, Long> {
+public interface OrderRepository extends JpaRepository<Orders, Long> {
 
-    Optional<Order> findById(Long id);
+    Optional<Orders> findById(Long id);
 
-    <S extends Order> S save(S order);
+    <S extends Orders> S save(S order);
 }

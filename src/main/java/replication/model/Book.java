@@ -45,5 +45,5 @@ public class Book {
     Set<BooksInLibrary> booksInLibraries;
 
     @OneToMany
-    Set<Order> orders;
+    Set<Orders> orders;
 }
