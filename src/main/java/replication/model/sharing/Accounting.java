@@ -1,4 +1,4 @@
-package replication.model;
+package replication.model.sharing;
 
 import lombok.Getter;
 import lombok.ToString;

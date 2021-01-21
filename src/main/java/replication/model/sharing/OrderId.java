@@ -1,4 +1,4 @@
-package replication.model;
+package replication.model.sharing;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -12,8 +12,8 @@ import java.io.Serializable;
 public class OrderId implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name = "or_id", unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "or_id")
     private Long id;
 
     @ManyToOne

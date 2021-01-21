@@ -1,9 +1,9 @@
-package replication.model;
-
-import javax.persistence.*;
+package replication.model.sharing;
 
 import lombok.Getter;
 import lombok.ToString;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "publisher")
@@ -12,8 +12,8 @@ import lombok.ToString;
 public class Publisher {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name = "p_id", unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "p_id")
     private Long id;
 
     @Column(name = "p_name", unique = true)

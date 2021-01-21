@@ -1,10 +1,9 @@
-package replication.model;
-
-import javax.persistence.*;
+package replication.model.sharing;
 
 import lombok.Getter;
 import lombok.ToString;
 
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -14,8 +13,8 @@ import java.util.Set;
 public class Library {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name = "l_id", unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "l_id")
     private Long id;
 
     @Column(name = "l_name")

@@ -1,7 +1,8 @@
-package replication.repository;
+package replication.repository.master;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import replication.model.Reader;
+import replication.model.sharing.Reader;
+
 import java.util.Optional;
 
 public interface RegistrationRepository extends JpaRepository<Reader, Long> {

@@ -3,7 +3,7 @@ package replication.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import replication.model.Reader;
+import replication.model.sharing.Reader;
 import replication.service.RegistrationService;
 
 @RestController

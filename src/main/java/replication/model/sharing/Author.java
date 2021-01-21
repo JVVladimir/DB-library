@@ -1,11 +1,12 @@
-package replication.model;
+package replication.model.sharing;
 
+
+import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
-import lombok.Getter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "author")
@@ -14,8 +15,8 @@ import lombok.ToString;
 public class Author {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name = "a_id", unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "a_id")
     private Long id;
 
     @Column(name = "a_name")

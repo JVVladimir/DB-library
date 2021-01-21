@@ -1,7 +1,7 @@
-package replication.repository;
+package replication.repository.master;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import replication.model.Book;
+import replication.model.sharing.Book;
 
 import java.util.Optional;
 

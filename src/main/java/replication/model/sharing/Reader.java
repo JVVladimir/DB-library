@@ -1,10 +1,9 @@
-package replication.model;
-
-import javax.persistence.*;
+package replication.model.sharing;
 
 import lombok.Getter;
 import lombok.ToString;
 
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -14,8 +13,8 @@ import java.util.Set;
 public class Reader {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name = "r_id", unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "r_id")
     private Long id;
 
     @Column(name = "r_name")
@@ -45,5 +44,5 @@ public class Reader {
     Set<Accounting> accountings;
 
     @OneToMany
-    Set<replication.model.Orders> Orders;
+    Set<replication.model.sharing.Orders> Orders;
 }

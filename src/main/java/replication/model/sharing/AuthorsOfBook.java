@@ -1,10 +1,10 @@
-package replication.model;
+package replication.model.sharing;
 
-
-import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.ToString;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "authors_of_book")
@@ -13,7 +13,8 @@ import lombok.ToString;
 public class AuthorsOfBook {
 
     @Id
-    @Column(name = "ab_id", unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ab_id")
     private Long id;
 
     @ManyToOne

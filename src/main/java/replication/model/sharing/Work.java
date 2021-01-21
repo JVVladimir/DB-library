@@ -1,8 +1,8 @@
-package replication.model;
+package replication.model.sharing;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -13,8 +13,8 @@ import java.util.Set;
 public class Work {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name = "w_id", unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "w_id")
     private Long id;
 
     @Column(name = "w_name")

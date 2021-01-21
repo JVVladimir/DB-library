@@ -1,11 +1,11 @@
-package replication.model;
+package replication.model.sharing;
 
-
-import javax.persistence.*;
-import java.time.LocalDate;
 
 import lombok.Getter;
 import lombok.ToString;
+
+import javax.persistence.*;
+import java.time.LocalDate;
 
 
 @Entity

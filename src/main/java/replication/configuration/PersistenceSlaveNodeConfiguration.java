@@ -1,40 +1,38 @@
 package replication.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.core.env.Environment;
 import javax.sql.DataSource;
 import java.util.HashMap;
 
 @Configuration
-@PropertySource({ "classpath:persistence-multiple-db.properties" })
+@PropertySource({ "classpath:persistence-multiple-db.properties", "classpath:application.properties"})
 @EnableJpaRepositories(
-        basePackages = "replication.repository",
+        basePackages = "replication.repository.slave",
         entityManagerFactoryRef = "slaveNodeEntityManager",
         transactionManagerRef = "slaveNodeTransactionManager"
 )
 public class PersistenceSlaveNodeConfiguration {
 
     @Autowired
-    private Environment env;
-
+    Environment environment;
 
     @Bean
+    @ConfigurationProperties(prefix="slave")
     public DataSource slaveNodeDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
-        dataSource.setUrl(env.getProperty("slave.jdbc.url"));
-        dataSource.setUsername(env.getProperty("slave.jdbc.user"));
-        dataSource.setPassword(env.getProperty("slave.jdbc.pass"));
-        return dataSource;
+        return DataSourceBuilder.create().build();
     }
 
 
@@ -42,19 +40,18 @@ public class PersistenceSlaveNodeConfiguration {
     public LocalContainerEntityManagerFactoryBean slaveNodeEntityManager(DataSource slaveNodeDataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(slaveNodeDataSource);
-        em.setPackagesToScan("replication.model");
+        em.setPackagesToScan("replication.model.sharing");
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
-        final HashMap<String, Object> properties = new HashMap<String, Object>();
-        properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-        properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
+        HashMap<String, Object> properties = new HashMap<>();
+        properties.put("hibernate.hbm2ddl.auto", environment.getProperty("spring.jpa.hibernate.ddl-auto"));
+        properties.put("hibernate.dialect", environment.getProperty("spring.jpa.properties.hibernate.dialect"));
         em.setJpaPropertyMap(properties);
-
         return em;
     }
 
     @Bean
-    public PlatformTransactionManager slaveNodeTransactionManager(LocalContainerEntityManagerFactoryBean slaveNodeEntityManager) {
+    public PlatformTransactionManager slaveNodeTransactionManager(@Qualifier("slaveNodeEntityManager") LocalContainerEntityManagerFactoryBean slaveNodeEntityManager) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(slaveNodeEntityManager.getObject());
         return transactionManager;

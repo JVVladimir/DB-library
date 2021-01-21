@@ -1,9 +1,9 @@
-package replication.model;
-
-import javax.persistence.*;
+package replication.model.sharing;
 
 import lombok.Getter;
 import lombok.ToString;
+
+import javax.persistence.*;
 
 
 @Entity
@@ -13,8 +13,8 @@ import lombok.ToString;
 public class Genre {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name = "g_id", unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "g_id")
     private Long id;
 
     @Column(name = "g_name")

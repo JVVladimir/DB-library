@@ -1,10 +1,10 @@
-package replication.model;
+package replication.model.sharing;
 
 
-import javax.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
 
+import javax.persistence.*;
 import java.util.Set;
 
 

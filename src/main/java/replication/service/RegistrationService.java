@@ -3,8 +3,8 @@ package replication.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import replication.model.Reader;
-import replication.repository.RegistrationRepository;
+import replication.model.sharing.Reader;
+import replication.repository.master.RegistrationRepository;
 
 import java.util.Optional;
 
