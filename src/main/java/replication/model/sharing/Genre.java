@@ -13,7 +13,6 @@ import javax.persistence.*;
 public class Genre {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "g_id")
     private Long id;
 
