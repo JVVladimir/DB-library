@@ -3,8 +3,6 @@ package replication.model.consolidation;
 
 import lombok.Getter;
 import lombok.ToString;
-import replication.model.sharing.Library;
-import replication.model.sharing.Reader;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -17,7 +15,7 @@ import java.time.LocalDate;
 public class Orders {
 
     @EmbeddedId
-    private BooksInLibraryId id;
+    private OrderId id;
 
     @Column(name = "or_id_reader")
     private Long reader;
@@ -25,7 +23,7 @@ public class Orders {
     @Column(name = "or_create_date")
     private LocalDate createDate;
 
-    @Column(name = "or_exec_datet")
+    @Column(name = "or_exec_date")
     private LocalDate execDate;
 
     @Column(name = "or_id_lib")
