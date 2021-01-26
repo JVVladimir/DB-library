@@ -18,7 +18,7 @@ public class ConsolidationController {
 
     private final CAccountingRepository accountRepository;
 
-    @Operation(summary = "Получить все доступные счета")
+    @Operation(summary = "Получить учеты выдачи книг")
     @GetMapping("/accounts")
     List<Accounting> findAllAccounting() {
         return accountRepository.findAll();

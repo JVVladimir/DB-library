@@ -33,15 +33,11 @@ public class Reader {
     private String mail;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(
-                    name = "r_id_lib",
-                    referencedColumnName = "l_id")
-    })
+    @JoinColumn( name = "r_id_lib",referencedColumnName = "l_id")
     private Library library;
 
     @OneToMany
-   Set<Accounting> accountings;
+    Set<Accounting> accountings;
 
     @OneToMany
     Set<Orders> Orders;
