@@ -27,12 +27,6 @@ public class Author {
 
     @Column(name = "a_died")
     private LocalDate died;
-
-    @OneToMany
-    Set<AuthorsOfWork> authorsOfWorks;
-
-    @OneToMany
-    Set<AuthorsOfBook> authorsOfBooks;
 }
 
 

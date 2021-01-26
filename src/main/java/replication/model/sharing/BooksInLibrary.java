@@ -17,10 +17,7 @@ public class BooksInLibrary {
     @EmbeddedId
     private BooksInLibraryId booksInLibraryId;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Book.class)
     @JoinColumn(name = "bl_id_book", referencedColumnName = "b_id")
     private Book book;
-
-    @OneToMany
-    Set<Accounting> accountings;
 }

@@ -16,11 +16,11 @@ public class AuthorsOfWork {
     @Column(name = "aw_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Author.class)
     @JoinColumn(name = "aw_id_author", referencedColumnName = "a_id")
     private Author author;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Work.class)
     @JoinColumn(name = "aw_id_work", referencedColumnName = "w_id")
     private Work work;
 }

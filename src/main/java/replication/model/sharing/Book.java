@@ -21,7 +21,7 @@ public class Book {
     @Column(name = "b_name")
     private String name;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Publisher.class)
     @JoinColumns({
             @JoinColumn(
                     name = "b_id_publisher",
@@ -34,16 +34,4 @@ public class Book {
 
     @Column(name = "b_isbn")
     private String isbn;
-
-    @OneToMany
-    Set<AuthorsOfBook> authorsOfBooks;
-
-    @OneToMany
-    Set<PublishedWork> publishedWorks;
-
-    @OneToMany
-    Set<BooksInLibrary> booksInLibraries;
-
-    @OneToMany
-    Set<Orders> orders;
 }

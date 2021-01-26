@@ -15,7 +15,7 @@ public class BooksInLibraryId implements Serializable {
     @Column(name = "bl_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Library.class)
     @JoinColumn(name = "bl_id_library", referencedColumnName = "l_id")
     private Library library;
 }

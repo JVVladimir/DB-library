@@ -22,7 +22,4 @@ public class Library {
 
     @Column(name = "l_address")
     private String address;
-
-    @OneToMany
-    Set<BooksInLibrary> booksInLibraries;
 }

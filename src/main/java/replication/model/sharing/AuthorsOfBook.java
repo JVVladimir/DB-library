@@ -17,11 +17,11 @@ public class AuthorsOfBook {
     @Column(name = "ab_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Author.class)
     @JoinColumn(name = "ab_id_author", referencedColumnName = "a_id")
     private Author author;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Book.class)
     @JoinColumn(name = "ab_id_book", referencedColumnName = "b_id")
     private Book book;
 }

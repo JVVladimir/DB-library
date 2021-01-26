@@ -16,7 +16,7 @@ public class OrderId implements Serializable {
     @Column(name = "or_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Book.class)
     @JoinColumn(name = "or_id_book", referencedColumnName = "b_id")
     private Book book;
 }

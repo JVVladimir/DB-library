@@ -32,13 +32,7 @@ public class Reader {
     @Column(name = "r_mail")
     private String mail;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Library.class)
     @JoinColumn( name = "r_id_lib",referencedColumnName = "l_id")
     private Library library;
-
-    @OneToMany
-    Set<Accounting> accountings;
-
-    @OneToMany
-    Set<Orders> Orders;
 }

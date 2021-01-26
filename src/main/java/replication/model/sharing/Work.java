@@ -20,7 +20,7 @@ public class Work {
     @Column(name = "w_name")
     private String name;
 
-    @ManyToOne
+    @ManyToOne(targetEntity =  Type.class)
     @JoinColumns({
             @JoinColumn(
                     name = "w_id_type",
@@ -28,17 +28,11 @@ public class Work {
     })
     private Type type;
 
-    @ManyToOne
+    @ManyToOne(targetEntity =  Genre.class)
     @JoinColumns({
             @JoinColumn(
                     name = "w_id_genre",
                     referencedColumnName = "g_id")
     })
     private Genre genre;
-
-    @OneToMany
-    Set<AuthorsOfWork> authorsOfWorks;
-
-    @OneToMany
-    Set<PublishedWork> publishedWorks;
 }

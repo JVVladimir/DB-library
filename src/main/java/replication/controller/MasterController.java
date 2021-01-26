@@ -8,12 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import replication.model.sharing.Genre;
-import replication.model.sharing.Reader;
-import replication.model.sharing.Type;
-import replication.repository.master.GenreRepository;
-import replication.repository.master.ReaderRepository;
-import replication.repository.master.TypeRepository;
+import replication.model.sharing.*;
+import replication.repository.master.*;
 
 import java.util.List;
 
@@ -25,7 +21,9 @@ public class MasterController {
     private final GenreRepository genreRepository;
     private final TypeRepository typeRepository;
     private final ReaderRepository readerRepository;
-
+    private final OrdersRepository ordersRepository;
+    private final AccountingRepository accountingRepository;
+    private final BooksInLibraryRepository booksInLibraryRepository;
 
     @Operation(summary = "Получить все доступные жанры")
     @GetMapping("/genres")
@@ -57,4 +55,22 @@ public class MasterController {
         return readerRepository.findAll();
     }
 
+    @Operation(summary = "Получить данные по всем заказам")
+    @GetMapping("/orders")
+    List<Orders> findOrders() {
+        return ordersRepository.findAll();
+    }
+
+    @Operation(summary = "Получить данные по всем заказам")
+    @GetMapping("/accounting")
+    List<Accounting> findAccounting() {
+        return accountingRepository.findAll();
+    }
+
+
+    @Operation(summary = "Получить данные по всем заказам")
+    @GetMapping("/booksInLibrary")
+    List<BooksInLibrary> findBooksInLibrary() {
+        return booksInLibraryRepository.findAll();
+    }
 }

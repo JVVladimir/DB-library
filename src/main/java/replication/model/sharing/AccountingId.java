@@ -15,7 +15,7 @@ public class AccountingId implements Serializable {
     @Column(name = "ac_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Reader.class)
     @JoinColumn(name = "ac_id_reader", referencedColumnName = "r_id")
     private Reader reader;
 }

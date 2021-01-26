@@ -17,7 +17,7 @@ public class Orders {
     @EmbeddedId
     private OrderId orderId;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Reader.class)
     @JoinColumn(name = "or_id_reader", referencedColumnName = "r_id")
     private Reader reader;
 
@@ -27,7 +27,7 @@ public class Orders {
     @Column(name = "or_exec_date")
     private LocalDate execDate;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Library.class)
     @JoinColumns({
             @JoinColumn(
                     name = "or_id_lib",

@@ -15,7 +15,7 @@ public class Accounting {
     @EmbeddedId
     private AccountingId accountingId;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = BooksInLibrary.class)
     @JoinColumns({
             @JoinColumn(name = "ac_id_book_in_lib", referencedColumnName = "bl_id"),
             @JoinColumn(referencedColumnName = "bl_id_library")

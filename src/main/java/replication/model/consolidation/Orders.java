@@ -25,7 +25,7 @@ public class Orders {
     @Column(name = "or_create_date")
     private LocalDate createDate;
 
-    @Column(name = "or_exec_datet")
+    @Column(name = "or_exec_date")
     private LocalDate execDate;
 
     @Column(name = "or_id_lib")
