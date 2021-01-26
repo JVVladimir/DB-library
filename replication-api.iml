@@ -11,7 +11,10 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
+          <factory-entry name="consolidationNodeEntityManager" />
           <factory-entry name="entityManagerFactory" />
+          <factory-entry name="masterNodeEntityManager" />
+          <factory-entry name="slaveNodeEntityManager" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>
