@@ -23,8 +23,6 @@ public class MasterController {
     private final ReaderRepository readerRepository;
     private final BooksInLibraryRepository booksInLibraryRepository;
     private final CBooksInLibraryRepository cBooksInLibraryRepository;
-    private final OrdersRepository ordersRepository;
-    private final AccountingRepository accountingRepository;
 
     @Operation(summary = "Получить все доступные жанры")
     @GetMapping("/genres")
@@ -54,12 +52,6 @@ public class MasterController {
     @GetMapping("/readers")
     List<Reader> findReaders() {
         return readerRepository.findAll();
-    }
-
-    @Operation(summary = "Получить данные по всем заказам")
-    @GetMapping("/accounting")
-    List<Accounting> findAccounting() {
-        return accountingRepository.findAll();
     }
 
     @Operation(summary = "Получить данные по всем книгам в филиале")
