@@ -6,14 +6,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import replication.controller.dto.LibToBookCount;
-import replication.model.sharing.Genre;
-import replication.model.sharing.Reader;
-import replication.model.sharing.Type;
+import replication.model.sharing.*;
 import replication.repository.consolidation.CBooksInLibraryRepository;
-import replication.repository.master.BooksInLibraryRepository;
-import replication.repository.master.GenreRepository;
-import replication.repository.master.ReaderRepository;
-import replication.repository.master.TypeRepository;
+import replication.repository.master.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +23,8 @@ public class MasterController {
     private final ReaderRepository readerRepository;
     private final BooksInLibraryRepository booksInLibraryRepository;
     private final CBooksInLibraryRepository cBooksInLibraryRepository;
-
     private final OrdersRepository ordersRepository;
     private final AccountingRepository accountingRepository;
-    private final BooksInLibraryRepository booksInLibraryRepository;
 
     @Operation(summary = "Получить все доступные жанры")
     @GetMapping("/genres")
