@@ -57,7 +57,7 @@ public class MasterController {
     }
 
     @Operation(summary = "Получить данные по всем заказам книг")
-    @GetMapping("/orders")
+    @GetMapping("/orders2")
     List<Orders> findOrders() {
         return ordersRepository.findAll();
     }
