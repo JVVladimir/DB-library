@@ -31,7 +31,7 @@ public class PersistenceConsolidationNodeConfiguration {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean consolidationNodeEntityManager(DataSource consolidationNodeDataSource) {
+    public LocalContainerEntityManagerFactoryBean consolidationNodeEntityManager(@Qualifier("consolidationNodeDataSource") DataSource consolidationNodeDataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(consolidationNodeDataSource);
         em.setPackagesToScan("replication.model.consolidation");

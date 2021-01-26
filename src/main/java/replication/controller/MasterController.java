@@ -56,12 +56,6 @@ public class MasterController {
         return readerRepository.findAll();
     }
 
-    @Operation(summary = "Получить данные по всем заказам книг")
-    @GetMapping("/orders2")
-    List<Orders> findOrders() {
-        return ordersRepository.findAll();
-    }
-
     @Operation(summary = "Получить данные по всем заказам")
     @GetMapping("/accounting")
     List<Accounting> findAccounting() {

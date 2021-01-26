@@ -35,7 +35,7 @@ public class PersistenceSlaveNodeConfiguration {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean slaveNodeEntityManager(DataSource slaveNodeDataSource) {
+    public LocalContainerEntityManagerFactoryBean slaveNodeEntityManager(@Qualifier("slaveNodeDataSource") DataSource slaveNodeDataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(slaveNodeDataSource);
         em.setPackagesToScan("replication.model.sharing");
