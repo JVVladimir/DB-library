@@ -56,16 +56,7 @@ public class MasterController {
         return readerRepository.findAll();
     }
 
-    @Operation(summary = "Количество экземпляров нужной книги в каждом филиале")
-    @Tag(name = "Распределенный запрос")
-    @GetMapping("/booksInlibs/{bookId}/count")
-    List<LibToBookCount> countBookInAllLibrary(@PathVariable("bookId") Long bookId) {
-        List<LibToBookCount> list = new ArrayList<>();
-        list.add(new LibToBookCount(3, booksInLibraryRepository.countBooks(bookId)));
-        cBooksInLibraryRepository.countBooks(bookId);
-        return list;
-    }
-    @Operation(summary = "Получить данные по всем заказам")
+    @Operation(summary = "Получить данные по всем заказам книг")
     @GetMapping("/orders")
     List<Orders> findOrders() {
         return ordersRepository.findAll();
@@ -77,10 +68,19 @@ public class MasterController {
         return accountingRepository.findAll();
     }
 
-
-    @Operation(summary = "Получить данные по всем заказам")
+    @Operation(summary = "Получить данные по всем книгам в филиале")
     @GetMapping("/booksInLibrary")
     List<BooksInLibrary> findBooksInLibrary() {
         return booksInLibraryRepository.findAll();
+    }
+
+    @Operation(summary = "Количество экземпляров нужной книги в каждом филиале")
+    @Tag(name = "Распределенный запрос")
+    @GetMapping("/booksInlibs/{bookId}/count")
+    List<LibToBookCount> countBookInAllLibrary(@PathVariable("bookId") Long bookId) {
+        List<LibToBookCount> list = new ArrayList<>();
+        list.add(new LibToBookCount(3, booksInLibraryRepository.countBooks(bookId)));
+        cBooksInLibraryRepository.countBooks(bookId);
+        return list;
     }
 }
