@@ -4,13 +4,18 @@ package replication.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import replication.model.sharing.*;
-import replication.repository.master.*;
+import org.springframework.web.bind.annotation.*;
+import replication.controller.dto.LibToBookCount;
+import replication.model.sharing.Genre;
+import replication.model.sharing.Reader;
+import replication.model.sharing.Type;
+import replication.repository.consolidation.CBooksInLibraryRepository;
+import replication.repository.master.BooksInLibraryRepository;
+import replication.repository.master.GenreRepository;
+import replication.repository.master.ReaderRepository;
+import replication.repository.master.TypeRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController("/main-library")
@@ -21,6 +26,9 @@ public class MasterController {
     private final GenreRepository genreRepository;
     private final TypeRepository typeRepository;
     private final ReaderRepository readerRepository;
+    private final BooksInLibraryRepository booksInLibraryRepository;
+    private final CBooksInLibraryRepository cBooksInLibraryRepository;
+
     private final OrdersRepository ordersRepository;
     private final AccountingRepository accountingRepository;
     private final BooksInLibraryRepository booksInLibraryRepository;
@@ -55,6 +63,15 @@ public class MasterController {
         return readerRepository.findAll();
     }
 
+    @Operation(summary = "Количество экземпляров нужной книги в каждом филиале")
+    @Tag(name = "Распределенный запрос")
+    @GetMapping("/booksInlibs/{bookId}/count")
+    List<LibToBookCount> countBookInAllLibrary(@PathVariable("bookId") Long bookId) {
+        List<LibToBookCount> list = new ArrayList<>();
+        list.add(new LibToBookCount(3, booksInLibraryRepository.countBooks(bookId)));
+        cBooksInLibraryRepository.countBooks(bookId);
+        return list;
+    }
     @Operation(summary = "Получить данные по всем заказам")
     @GetMapping("/orders")
     List<Orders> findOrders() {
