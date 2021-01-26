@@ -4,6 +4,7 @@ package replication.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.web.bind.annotation.*;
 import replication.controller.dto.LibToBookCount;
 import replication.model.sharing.*;
@@ -11,7 +12,11 @@ import replication.repository.consolidation.CBooksInLibraryRepository;
 import replication.repository.master.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RestController("/main-library")
 @AllArgsConstructor
@@ -71,10 +76,9 @@ public class MasterController {
     @Operation(summary = "Количество экземпляров нужной книги в каждом филиале")
     @Tag(name = "Распределенный запрос")
     @GetMapping("/booksInlibs/{bookId}/count")
-    List<LibToBookCount> countBookInAllLibrary(@PathVariable("bookId") Long bookId) {
-        List<LibToBookCount> list = new ArrayList<>();
-        list.add(new LibToBookCount(3, booksInLibraryRepository.countBooks(bookId)));
-        cBooksInLibraryRepository.countBooks(bookId);
-        return list;
+    Map<Object, Long> countBookInAllLibrary(@PathVariable("bookId") Long bookId) {
+        Map<Object, Long> map = cBooksInLibraryRepository.countBooks(bookId, 3).stream().map(key -> Pair.of(key.getId().getLibrary(), key.getBook())).collect(Collectors.groupingBy(Pair::getKey, Collectors.counting()));
+        map.put(3L, booksInLibraryRepository.countBooks(bookId));
+        return map;
     }
 }
