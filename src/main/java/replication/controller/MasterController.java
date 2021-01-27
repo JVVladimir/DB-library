@@ -59,6 +59,12 @@ public class MasterController {
         return readerRepository.findAll();
     }
 
+    @Operation(summary = "Добавить нового читателя")
+    @PostMapping("/readers")
+    Reader addReader(@RequestBody Reader reader) {
+        return readerRepository.save(reader);
+    }
+
     @Operation(summary = "Получить данные по всем книгам в филиале")
     @GetMapping("/booksInLibrary")
     List<BooksInLibrary> findBooksInLibrary() {

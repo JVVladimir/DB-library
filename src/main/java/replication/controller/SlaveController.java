@@ -1,30 +1,34 @@
 package replication.controller;
 
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import replication.model.sharing.Reader;
+import replication.repository.slave.SReaderRepository;
 
-@RestController
+import java.util.List;
+
+@RestController()
 @AllArgsConstructor
 @Tag(name = "Библиотека-филиал")
 public class SlaveController {
 
-    //private final MainService registrationService;
+    private final SReaderRepository readerRepository;
 
-//    @GetMapping("/genre/{id}")
-//    boolean findGenre(@PathVariable Long id) {
-//        return registrationService.findGenre(id).isPresent();
-//    }
-//
-//
-//    @GetMapping("/type/{id}")
-//    boolean findType(@PathVariable Long id) {
-//        return registrationService.findType(id).isPresent();
-//    }
-//
-//    @GetMapping("/allAccounting")
-//    List<Accounting> findAllAccounting() {
-//        return registrationService.findAllAccounting();
-//    }
+    @Operation(summary = "Получить данные по всем читателям")
+    @GetMapping("/filial-library/readers")
+    List<Reader> findReaders() {
+        return readerRepository.findAll();
+    }
+
+    @Operation(summary = "Добавить нового читателя")
+    @PostMapping("/filial-library/readers")
+    Reader addReader(@RequestBody Reader reader) {
+        return readerRepository.save(reader);
+    }
 }
