@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import replication.model.consolidation.Accounting;
 import replication.model.consolidation.BooksInLibrary;
@@ -15,7 +16,8 @@ import replication.repository.consolidation.COrdersRepository;
 
 import java.util.List;
 
-@RestController("/consolidation")
+@RestController
+@RequestMapping("/consolidation")
 @AllArgsConstructor
 @Tag(name = "Консолидация данных")
 public class ConsolidationController {

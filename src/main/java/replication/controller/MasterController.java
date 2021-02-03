@@ -18,7 +18,8 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@RestController("/main-library")
+@RestController
+@RequestMapping("/main-library")
 @AllArgsConstructor
 @Tag(name = "Главная бибилиотека")
 public class MasterController {
