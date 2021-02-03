@@ -24,11 +24,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/main-library/**").hasRole(Role.MASTER.name())
                 .antMatchers("/filial-library/**").hasRole(Role.SLAVE.name())
-                .antMatchers("/consolidation/**").hasRole(Role.CONSOL.name())
+                .antMatchers("/consolidation/**").hasAnyRole(Role.MASTER.name(), Role.SLAVE.name())
                 .anyRequest()
                 .authenticated()
                 .and()
-                .httpBasic();
+                .formLogin();
     }
 
     @Bean
@@ -46,14 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .password(passwordEncoder().encode("password"))
                         .roles(Role.SLAVE.name())
                         .build();
-        UserDetails user3 =
-                User.builder()
-                        .username("consol")
-                        .password(passwordEncoder().encode("password"))
-                        .roles(Role.CONSOL.name())
-                        .build();
 
-        return new InMemoryUserDetailsManager(user, user2, user3);
+        return new InMemoryUserDetailsManager(user, user2);
     }
 
     @Bean
