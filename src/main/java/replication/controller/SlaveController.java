@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.*;
 import replication.model.sharing.*;
-import replication.repository.master.WorkRepository;
 import replication.repository.slave.*;
 
 import java.util.List;
@@ -20,7 +19,6 @@ import java.util.List;
 public class SlaveController {
 
     private final SReaderRepository readerRepository;
-    private final SGenreRepository genreRepository;
     private final SBookRepository bookRepository;
     private final SAuthorRepository authorRepository;
     private final SLibraryRepository libraryRepository;
@@ -53,20 +51,14 @@ public class SlaveController {
 
     @Operation(summary = "Поиск произведения")
     @GetMapping("/works")
-    List<Work> getWork(@RequestParam(required = false) String name, @RequestParam(required = false) String genre) {
-        return workRepository.findAll(Example.of(new Work(name, genre)));
-    }
-
-    @Operation(summary = "Получить все доступные жанры")
-    @GetMapping("/genres")
-    List<Genre> get() {
-        return genreRepository.findAll();
+    List<Work> getWork(@RequestParam(required = false) String name, @RequestParam(required = false) String genre, @RequestParam(required = false) String type) {
+        return workRepository.findAll(Example.of(new Work(name, genre, type)));
     }
 
     @Operation(summary = "Получить данные по всем читателям")
     @GetMapping("/readers")
-    List<Reader> findReaders() {
-        return readerRepository.findAll();
+    List<Reader> findReaders(@RequestParam(required = false) String name, @RequestParam(required = false) String pasp, @RequestParam(required = false) String phone) {
+        return readerRepository.findAll(Example.of(new Reader(name, pasp, phone)));
     }
 
     @Operation(summary = "Добавить нового читателя")

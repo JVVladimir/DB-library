@@ -1,6 +1,7 @@
 package replication.model.sharing;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.Set;
 @Table(name = "reader")
 @Getter
 @ToString
+@NoArgsConstructor
 public class Reader {
 
     @Id
@@ -35,4 +37,10 @@ public class Reader {
     @ManyToOne(targetEntity = Library.class)
     @JoinColumn( name = "r_id_lib",referencedColumnName = "l_id")
     private Library library;
+
+    public Reader(String name, String pasp, String phone) {
+        this.name = name;
+        this.pasp = pasp;
+        this.phone = phone;
+    }
 }

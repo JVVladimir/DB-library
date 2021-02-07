@@ -38,8 +38,9 @@ public class Work {
     })
     private Genre genre;
 
-    public Work(String name, String genre) {
+    public Work(String name, String genre, String type) {
         this.name = name;
         this.genre = new Genre(genre);
+        this.type = new Type(type);
     }
 }

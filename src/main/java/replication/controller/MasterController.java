@@ -59,26 +59,14 @@ public class MasterController {
 
     @Operation(summary = "Поиск произведения")
     @GetMapping("/works")
-    List<Work> getWork(@RequestParam(required = false) String name, @RequestParam(required = false) String genre) {
-        return workRepository.findAll(Example.of(new Work(name, genre)));
-    }
-
-    @Operation(summary = "Получить все доступные жанры")
-    @GetMapping("/genres")
-    List<Genre> get() {
-        return genreRepository.findAll();
+    List<Work> getWork(@RequestParam(required = false) String name, @RequestParam(required = false) String genre, @RequestParam(required = false) String type) {
+        return workRepository.findAll(Example.of(new Work(name, genre, type)));
     }
 
     @Operation(summary = "Добавить новый жанр")
     @PostMapping("/genres")
-    Genre add(@RequestBody Genre genre) {
+    Genre addGenre(@RequestBody Genre genre) {
         return genreRepository.save(genre);
-    }
-
-    @Operation(summary = "Получить все доступные типы книг")
-    @GetMapping("/types")
-    List<Type> findType() {
-        return typeRepository.findAll();
     }
 
     @Operation(summary = "Добавить новый тип книги")
@@ -89,8 +77,8 @@ public class MasterController {
 
     @Operation(summary = "Получить данные по всем читателям")
     @GetMapping("/readers")
-    List<Reader> findReaders() {
-        return readerRepository.findAll();
+    List<Reader> findReaders(@RequestParam(required = false) String name, @RequestParam(required = false) String pasp, @RequestParam(required = false) String phone) {
+        return readerRepository.findAll(Example.of(new Reader(name, pasp, phone)));
     }
 
     @Operation(summary = "Добавить нового читателя")
