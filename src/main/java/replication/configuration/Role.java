@@ -1,5 +1,5 @@
 package replication.configuration;
 
 public enum Role {
-    MASTER, SLAVE
+    MAIN_LIBRARIAN, LIBRARIAN, DIRECTOR, TRANSPORTER
 }

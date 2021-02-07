@@ -33,9 +33,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger-resources/configuration/ui", "/swagger-ui.html")
                 .permitAll()
-                .antMatchers("/main-library/**").hasRole(Role.MASTER.name())
-                .antMatchers("/filial-library/**").hasRole(Role.SLAVE.name())
-                .antMatchers("/consolidation/**").hasAnyRole(Role.MASTER.name(), Role.SLAVE.name())
+                .antMatchers("/main-library/**").hasAnyRole(Role.MAIN_LIBRARIAN.name(), Role.DIRECTOR.name())
+                .antMatchers("/filial-library/**").hasRole(Role.LIBRARIAN.name())
+                .antMatchers("/consolidation/**").hasAnyRole(Role.MAIN_LIBRARIAN.name(), Role.LIBRARIAN.name(), Role.TRANSPORTER.name(), Role.DIRECTOR.name())
                 //.anyRequest()
                 //.authenticated()
                 .and()
@@ -63,18 +63,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         UserDetails user =
                 User.builder()
-                        .username("master")
+                        .username("mainLibrarian")
                         .password(passwordEncoder().encode("password"))
-                        .roles(Role.MASTER.name())
+                        .roles(Role.MAIN_LIBRARIAN.name())
                         .build();
         UserDetails user2 =
                 User.builder()
-                        .username("slave")
+                        .username("librarian")
                         .password(passwordEncoder().encode("password"))
-                        .roles(Role.SLAVE.name())
+                        .roles(Role.LIBRARIAN.name())
+                        .build();
+        UserDetails user3 =
+                User.builder()
+                        .username("director")
+                        .password(passwordEncoder().encode("password"))
+                        .roles(Role.DIRECTOR.name())
+                        .build();
+        UserDetails user4 =
+                User.builder()
+                        .username("transporter")
+                        .password(passwordEncoder().encode("password"))
+                        .roles(Role.TRANSPORTER.name())
                         .build();
 
-        return new InMemoryUserDetailsManager(user, user2);
+        return new InMemoryUserDetailsManager(user, user2, user3, user4);
     }
 
     @Bean
