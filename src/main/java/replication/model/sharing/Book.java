@@ -1,6 +1,7 @@
 package replication.model.sharing;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.Set;
 @Table(name = "book")
 @Getter
 @ToString
+@NoArgsConstructor
 public class Book {
 
     @Id
@@ -34,4 +36,9 @@ public class Book {
 
     @Column(name = "b_isbn")
     private String isbn;
+
+    public Book(String name, String isbn) {
+        this.name = name;
+        this.isbn = isbn;
+    }
 }

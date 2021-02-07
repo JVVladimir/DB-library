@@ -5,17 +5,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.*;
-import replication.controller.dto.LibToBookCount;
 import replication.model.sharing.*;
 import replication.repository.consolidation.CBooksInLibraryRepository;
 import replication.repository.master.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,6 +27,41 @@ public class MasterController {
     private final ReaderRepository readerRepository;
     private final BooksInLibraryRepository booksInLibraryRepository;
     private final CBooksInLibraryRepository cBooksInLibraryRepository;
+    private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
+    private final LibraryRepository libraryRepository;
+    private final PublisherRepository publisherRepository;
+    private final WorkRepository workRepository;
+
+    @Operation(summary = "Получить книги")
+    @GetMapping("/books")
+    List<Book> getBook(@RequestParam(required = false) String name, @RequestParam(required = false) String isbn) {
+        return bookRepository.findAll(Example.of(new Book(name, isbn)));
+    }
+
+    @Operation(summary = "Получить автора")
+    @GetMapping("/authors")
+    List<Author> getAuthor(@RequestParam(required = false) String name) {
+        return authorRepository.findAll(Example.of(new Author(name)));
+    }
+
+    @Operation(summary = "Поиск библиотек")
+    @GetMapping("/libraries")
+    List<Library> getLibraries(@RequestParam(required = false) String name, @RequestParam(required = false) String address) {
+        return libraryRepository.findAll(Example.of(new Library(name, address)));
+    }
+
+    @Operation(summary = "Поиск издательства")
+    @GetMapping("/publishers")
+    List<Publisher> getPublisher(@RequestParam(required = false) String name, @RequestParam(required = false) String address) {
+        return publisherRepository.findAll(Example.of(new Publisher(name, address)));
+    }
+
+    @Operation(summary = "Поиск произведения")
+    @GetMapping("/works")
+    List<Work> getWork(@RequestParam(required = false) String name, @RequestParam(required = false) String genre) {
+        return workRepository.findAll(Example.of(new Work(name, genre)));
+    }
 
     @Operation(summary = "Получить все доступные жанры")
     @GetMapping("/genres")

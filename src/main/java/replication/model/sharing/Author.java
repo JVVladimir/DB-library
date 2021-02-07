@@ -2,6 +2,7 @@ package replication.model.sharing;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Table(name = "author")
 @Getter
 @ToString
+@NoArgsConstructor
 public class Author {
 
     @Id
@@ -27,6 +29,10 @@ public class Author {
 
     @Column(name = "a_died")
     private LocalDate died;
+
+    public Author(String name) {
+        this.name = name;
+    }
 }
 
 

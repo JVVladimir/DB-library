@@ -1,6 +1,8 @@
 package replication.model.sharing;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -10,6 +12,7 @@ import java.util.Set;
 @Table(name = "library")
 @Getter
 @ToString
+@NoArgsConstructor
 public class Library {
 
     @Id
@@ -22,4 +25,9 @@ public class Library {
 
     @Column(name = "l_address")
     private String address;
+
+    public Library(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
 }

@@ -1,6 +1,7 @@
 package replication.model.sharing;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "publisher")
 @Getter
 @ToString
+@NoArgsConstructor
 public class Publisher {
 
     @Id
@@ -27,4 +29,9 @@ public class Publisher {
 
     @Column(name = "p_mail", unique = true)
     private String mail;
+
+    public Publisher(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
 }
