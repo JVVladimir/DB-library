@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {User} from "../data/User";
 import {Observable} from "rxjs/internal/Observable";
 
@@ -17,14 +17,11 @@ export class LoginAndRegistrate {
   private customersUrl = 'http://192.168.1.67:8080/';
   constructor(private httpClient: HttpClient) { }
 
-  loginUser(user: User):  Observable<User>  {
-    const parm = new HttpParams();
-    parm.set('username', user.username);
-    parm.set('password', user.password);
+  loginUser(user: User): any {
 
-    return this.httpClient.post<User>(this.customersUrl + 'auth/login', {
-      params: parm
-    }, httpOptions);
+    console.log(user);
+    const opt = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
+    return this.httpClient.post(this.customersUrl + 'auth/login?username=' + user.username + '&password=' + user.password, null, opt);
   }
 
   setData(user: User) {

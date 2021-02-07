@@ -2,9 +2,7 @@ package replication.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
@@ -17,7 +15,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
+import java.util.Arrays;
 import java.util.Collections;
 
 @Configuration
@@ -31,31 +29,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
+               // .requestMatchers(CorsUtils::isCorsRequest).permitAll()
                 .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger-resources/configuration/ui", "/swagger-ui.html")
                 .permitAll()
                 .antMatchers("/main-library/**").hasAnyRole(Role.MAIN_LIBRARIAN.name(), Role.DIRECTOR.name())
                 .antMatchers("/filial-library/**").hasRole(Role.LIBRARIAN.name())
                 .antMatchers("/consolidation/**").hasAnyRole(Role.MAIN_LIBRARIAN.name(), Role.LIBRARIAN.name(), Role.TRANSPORTER.name(), Role.DIRECTOR.name())
-                //.anyRequest()
-                //.authenticated()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/auth/login")
-                .defaultSuccessUrl("/auth/success")
+                .permitAll()
                 .and()
                 .logout()
                 .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true)
                 .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout", "POST"));
-    }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs",
-                "/configuration/ui",
-                "/swagger-resources/**",
-                "/configuration/security",
-                "/swagger-ui.html",
-                "/webjars/**").antMatchers(HttpMethod.OPTIONS, "/**");
     }
 
     @Bean
@@ -94,15 +84,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder(12);
     }
 
-    @Bean
+      @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Collections.singletonList("*"));
-        configuration.setAllowedMethods(Collections.singletonList("*"));
-        configuration.setAllowedHeaders(Collections.singletonList("*"));
-        configuration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
+          CorsConfiguration configuration = new CorsConfiguration();
+          configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
+          configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
+          configuration.setAllowedHeaders(Collections.singletonList("*"));
+          configuration.setAllowCredentials(true);
+          UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+          source.registerCorsConfiguration("/**", configuration);
+          return source;
     }
 }

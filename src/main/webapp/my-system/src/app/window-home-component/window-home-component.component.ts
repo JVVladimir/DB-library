@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {LoginAndRegistrate} from "../services/LoginAndRegistrate";
 import {Router} from "@angular/router";
-import {User} from "../data/User";
 
 @Component({
   selector: 'app-window-home-component',
@@ -45,10 +44,11 @@ export class WindowHomeComponentComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     } else {
-      this.loginService.loginUser(this.loginForm.value).subscribe(answer => {
-        if (answer != null)  {
-          console.log(answer);
-          this.loginService.setData(answer);
+      console.log("natasha")
+      this.loginService.loginUser(this.loginForm.value).subscribe(data => {
+        console.log("Hello world: " + data);
+        if(data.status == 200)  {
+          this.loginService.setData(this.loginForm.value);
           this.router.navigateByUrl('/main');
         } else {
           alert('Неверный логин или пароль!');

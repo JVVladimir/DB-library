@@ -10,13 +10,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class TestController {
 
-    @GetMapping
-    public String auth() {
-        return "Hello, everybody!";
-    }
-
-    @GetMapping("/success")
-    public String success() {
-        return "You are successfully authorized!";
-    }
 }
