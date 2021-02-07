@@ -13,6 +13,7 @@ import replication.repository.slave.SReaderRepository;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/filial-library")
 @AllArgsConstructor
 @Tag(name = "Библиотека-филиал")
