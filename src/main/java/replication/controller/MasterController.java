@@ -41,10 +41,22 @@ public class MasterController {
         return bookRepository.findAll(Example.of(new Book(name, isbn)));
     }
 
+    @Operation(summary = "Добавить книгу")
+    @PostMapping("/books")
+    Book addBook(@RequestBody Book book) {
+        return bookRepository.save(book);
+    }
+
     @Operation(summary = "Получить автора")
     @GetMapping("/authors")
     List<Author> getAuthor(@RequestParam(required = false) String name) {
         return authorRepository.findAll(Example.of(new Author(name)));
+    }
+
+    @Operation(summary = "Добавить автора")
+    @PostMapping("/authors")
+    Author addAuthor(@RequestBody Author author) {
+        return authorRepository.save(author);
     }
 
     @Operation(summary = "Поиск библиотек")
@@ -53,16 +65,34 @@ public class MasterController {
         return libraryRepository.findAll(Example.of(new Library(name, address)));
     }
 
+    @Operation(summary = "Добавить библиотеку")
+    @PostMapping("/libraries")
+    Library addLibrary(@RequestBody Library library) {
+        return libraryRepository.save(library);
+    }
+
     @Operation(summary = "Поиск издательства")
     @GetMapping("/publishers")
     List<Publisher> getPublisher(@RequestParam(required = false) String name, @RequestParam(required = false) String address) {
         return publisherRepository.findAll(Example.of(new Publisher(name, address)));
     }
 
+    @Operation(summary = "Добавить издательство")
+    @PostMapping("/publishers")
+    Publisher addPublisher(@RequestBody Publisher publisher) {
+        return publisherRepository.save(publisher);
+    }
+
     @Operation(summary = "Поиск произведения")
     @GetMapping("/works")
     List<Work> getWork(@RequestParam(required = false) String name, @RequestParam(required = false) String genre, @RequestParam(required = false) String type) {
         return workRepository.findAll(Example.of(new Work(name, genre, type)));
+    }
+
+    @Operation(summary = "Добавить произведение")
+    @PostMapping("/works")
+    Work addWork(@RequestBody Work work) {
+        return workRepository.save(work);
     }
 
     @Operation(summary = "Добавить новый жанр")
