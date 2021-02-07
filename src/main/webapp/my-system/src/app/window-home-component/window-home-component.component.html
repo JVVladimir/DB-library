@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Login</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div class="limiter">
+  <div class="container-login100">
+    <div class="wrap-login100">
+      <div class="login100-form-title" style="background-image: url(../../assets/img/bg-01.jpg);">
+					<span class="login100-form-title-1">
+						 LIBRARY
+					</span>
+      </div>
+
+      <form class="login100-form validate-form" [formGroup]="loginForm" (ngSubmit)="getData()">
+        <div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
+          <span class="label-input100">Username</span>
+          <input class="input100 form-control" type="text" name="username" placeholder="Enter username"  id="username" formControlName="username" [ngClass]="{ 'is-invalid': submitted && logn.username.errors }" >
+          <div *ngIf="submitted && logn.username.errors" class="invalid-feedback" style="color: darkred">
+            <div *ngIf="logn.username.errors.required" style="color: darkred"> Username is required</div>
+            <div *ngIf="logn.username.errors.minlength" style="color: darkred"> Username must be at least 6 characters</div>
+          </div>
+          <span class="focus-input100"></span>
+        </div>
+
+        <div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
+          <span class="label-input100">Password</span>
+          <input class="input100 form-control" type="password" name="password" placeholder="Enter password"  id="password" formControlName="password"  [ngClass]="{ 'is-invalid': submitted && logn.password.errors }" >
+          <div *ngIf="submitted && logn.password.errors" class="invalid-feedback" style="color: darkred">
+            <div *ngIf="logn.password.errors.required" style="color: darkred"> Password is required</div>
+            <div *ngIf="logn.password.errors.minlength" style="color: darkred"> Password must be at least 6 characters</div>
+          </div>
+          <span class="focus-input100"></span>
+        </div>
+
+        <div class="container-login100-form-btn">
+          <button class="login100-form-btn" [disabled]="loading">
+            Log In
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--===============================================================================================-->
+<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/bootstrap/js/popper.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/daterangepicker/moment.min.js"></script>
+<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+<script src="js/main.js"></script>
+
+</body>
+</html>
