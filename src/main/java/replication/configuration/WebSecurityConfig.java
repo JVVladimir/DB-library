@@ -44,6 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/auth/success")
                 .and()
                 .logout()
+                .deleteCookies("JSESSIONID")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout", "POST"));
     }
 
@@ -54,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagger-resources/**",
                 "/configuration/security",
                 "/swagger-ui.html",
-                "/webjars/**").antMatchers(HttpMethod.OPTIONS, "/main-library/**");
+                "/webjars/**").antMatchers(HttpMethod.OPTIONS, "/**");
     }
 
     @Bean
