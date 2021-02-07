@@ -114,13 +114,13 @@ public class MasterController {
     }
 
     @Operation(summary = "Получить все книги автора или всех авторов книги")
-    @GetMapping("/works")
+    @GetMapping("/authorWorks")
     List<AuthorsOfWork> findWorksByAuthor(@RequestParam(required = false) String authorName, @RequestParam(required = false) String workName) {
         return authorsOfWorkRepository.findAll(Example.of(new AuthorsOfWork(authorName, workName)));
     }
 
     @Operation(summary = "Получить все произведения автора")
-    @GetMapping("/readers")
+    @GetMapping("/authorBooks")
     List<AuthorsOfBook> findBookByAuthor(@RequestParam(required = false) String authorName, @RequestParam(required = false) String bookName) {
         return authorsOfBookRepository.findAll(Example.of(new AuthorsOfBook(authorName, bookName)));
     }
