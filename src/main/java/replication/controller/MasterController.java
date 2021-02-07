@@ -29,6 +29,8 @@ public class MasterController {
     private final CBooksInLibraryRepository cBooksInLibraryRepository;
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
+    private final AuthorsOfBookRepository authorsOfBookRepository;
+    private final AuthorOfWorkRepository authorsOfWorkRepository;
     private final LibraryRepository libraryRepository;
     private final PublisherRepository publisherRepository;
     private final WorkRepository workRepository;
@@ -79,6 +81,18 @@ public class MasterController {
     @GetMapping("/readers")
     List<Reader> findReaders(@RequestParam(required = false) String name, @RequestParam(required = false) String pasp, @RequestParam(required = false) String phone) {
         return readerRepository.findAll(Example.of(new Reader(name, pasp, phone)));
+    }
+
+    @Operation(summary = "Получить все книги автора или всех авторов книги")
+    @GetMapping("/works")
+    List<AuthorsOfWork> findWorksByAuthor(@RequestParam(required = false) String authorName, @RequestParam(required = false) String workName) {
+        return authorsOfWorkRepository.findAll(Example.of(new AuthorsOfWork(authorName, workName)));
+    }
+
+    @Operation(summary = "Получить все произведения автора")
+    @GetMapping("/readers")
+    List<AuthorsOfBook> findBookByAuthor(@RequestParam(required = false) String authorName, @RequestParam(required = false) String bookName) {
+        return authorsOfBookRepository.findAll(Example.of(new AuthorsOfBook(authorName, bookName)));
     }
 
     @Operation(summary = "Добавить нового читателя")

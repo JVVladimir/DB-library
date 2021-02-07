@@ -1,6 +1,7 @@
 package replication.model.sharing;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "authors_of_work")
 @Getter
 @ToString
+@NoArgsConstructor
 public class AuthorsOfWork {
 
     @Id
@@ -23,4 +25,9 @@ public class AuthorsOfWork {
     @ManyToOne(targetEntity = Work.class)
     @JoinColumn(name = "aw_id_work", referencedColumnName = "w_id")
     private Work work;
+
+    public AuthorsOfWork(String authorName, String workName) {
+        this.author = new Author(authorName);
+        this.work = new Work(workName, null, null);
+    }
 }

@@ -24,6 +24,8 @@ public class SlaveController {
     private final SLibraryRepository libraryRepository;
     private final SPublisherRepository publisherRepository;
     private final SWorkRepository workRepository;
+    private final SAuthorsOfBookRepository authorsOfBookRepository;
+    private final SAuthorOfWorkRepository authorsOfWorkRepository;
 
     @Operation(summary = "Получить книги")
     @GetMapping("/books")
@@ -65,5 +67,17 @@ public class SlaveController {
     @PostMapping("/readers")
     Reader addReader(@RequestBody Reader reader) {
         return readerRepository.save(reader);
+    }
+
+    @Operation(summary = "Получить все книги автора или всех авторов книги")
+    @GetMapping("/works")
+    List<AuthorsOfWork> findWorksByAuthor(@RequestParam(required = false) String authorName, @RequestParam(required = false) String workName) {
+        return authorsOfWorkRepository.findAll(Example.of(new AuthorsOfWork(authorName, workName)));
+    }
+
+    @Operation(summary = "Получить все произведения автора")
+    @GetMapping("/readers")
+    List<AuthorsOfBook> findBookByAuthor(@RequestParam(required = false) String authorName, @RequestParam(required = false) String bookName) {
+        return authorsOfBookRepository.findAll(Example.of(new AuthorsOfBook(authorName, bookName)));
     }
 }
