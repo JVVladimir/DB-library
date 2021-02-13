@@ -6,20 +6,25 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Library} from "../data/Library";
 import {MainLibraryService} from "../services/ManLibraryService";
+import {Book} from "../data/Book";
+import {Work} from "../data/Work";
+import {Publisher} from "../data/Publisher";
+import {Type} from "../data/Type";
+import {Genre} from "../data/Genre";
 
 @Component({
   selector: 'app-main-window',
-  templateUrl: './main-window.component.html',
-  styleUrls: ['./main-window.component.css']
+  templateUrl: './main-work-window.component.html',
+  styleUrls: ['./main-work-window.component.css']
 })
-export class MainWindowComponent implements OnInit {
+export class MainWorkWindowComponent implements OnInit {
   tableForm: FormGroup;
   submitted = false;
   selected = '';
   user: User = null;
 
-  libraries: Library[] = null;
-  libraryColumns: string[] = ['id', 'name', 'address'];
+  works: Work[] = null;
+  workColumns: string[] = ['id', 'name',  'type_name', 'genre_name'];
 
 
   constructor(public dialog: MatDialog, private formBuilder: FormBuilder, private service: LoginAndRegistrate, private mainLibraryService: MainLibraryService, private router: Router) {
@@ -34,9 +39,11 @@ export class MainWindowComponent implements OnInit {
       table: ['', Validators.compose([
         Validators.required
       ])],
-      library_name: [''],
-      library_address: [''],
-      library_id: ['']
+      work_name: [''],
+      type_name: [''],
+      genre_name: [''],
+      type_id: [''],
+      genre_id: ['']
     });
   }
 
@@ -46,39 +53,45 @@ export class MainWindowComponent implements OnInit {
 
   getData() {
     this.submitted = true;
-    this.libraries = null;
+    this.works = null;
     if (this.tableForm.invalid) {
       return;
     } else if (this.selected === 'search') {
-      const library = new Library();
-      library.name = this.tableForm.value['library_name'];
-      library.address = this.tableForm.value['library_address'];
+      const work = new Work();
+      work.name = this.tableForm.value['work_name'];
+      work.type = new Type()
+      work.type.name = this.tableForm.value['type_name'];
+      work.genre = new Genre()
+      work.genre.name = this.tableForm.value['genre_name'];
       this.clear();
-      this.mainLibraryService.searchLibrary(library).subscribe((answer: Library[]) => {
+      this.mainLibraryService.searchWork(work).subscribe((answer: Work[]) => {
         if (answer != null) {
-          this.libraries = answer;
+          this.works = answer;
         } else {
           alert('Ошибка! Данные отсутствуют!')
         }
       });
     } else if (this.selected === 'add') {
-      const library = new Library();
-      library.name = this.tableForm.value['library_name'];
-      library.address = this.tableForm.value['library_address'];
+      const work = new Work();
+      work.name = this.tableForm.value['work_name'];
+      work.type = new Type()
+      work.type.id = this.tableForm.value['type_id'];
+      work.genre = new Genre()
+      work.genre.id = this.tableForm.value['genre_id'];
       this.clear();
-      this.mainLibraryService.addLibrary(library).subscribe((answer: Library[]) => {
-        this.getLibrariesFromDB();
+      this.mainLibraryService.addWorks(work).subscribe((answer: Work[]) => {
+        this.getWorksFromDB();
       });
     } else if (this.selected === 'get') {
-      this.getLibrariesFromDB();
+      this.getWorksFromDB();
     }
     this.submitted = false;
   }
 
-  private getLibrariesFromDB() {
-    this.mainLibraryService.getLibraries().subscribe((answer: Library[]) => {
+  private getWorksFromDB() {
+    this.mainLibraryService.getWorks().subscribe((answer: Work[]) => {
       if (answer != null) {
-        this.libraries = answer;
+        this.works = answer;
       } else {
         alert('Ошибка! Данные отсутствуют!')
       }
@@ -86,7 +99,7 @@ export class MainWindowComponent implements OnInit {
   }
 
   clear() {
-    this.libraries = null;
+    this.works = null;
   }
 
   goLibraries() {

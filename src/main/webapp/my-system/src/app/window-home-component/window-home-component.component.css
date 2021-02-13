@@ -3247,8 +3247,8 @@ iframe {
 
 .label-input100 {
   font-family: Poppins-Regular;
-  font-size: 15px;
-  color: #808080;
+  font-size: 18px;
+  color: #2b93e3;
   line-height: 1.2;
   text-align: right;
 
@@ -3263,7 +3263,7 @@ iframe {
 .input100 {
   font-family: Poppins-Regular;
   font-size: 15px;
-  color: #555555;
+  color: #a4a0a0;
   line-height: 1.2;
 
   display: block;

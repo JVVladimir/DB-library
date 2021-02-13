@@ -6,20 +6,26 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Library} from "../data/Library";
 import {MainLibraryService} from "../services/ManLibraryService";
+import {Book} from "../data/Book";
+import {Work} from "../data/Work";
+import {Publisher} from "../data/Publisher";
+import {Type} from "../data/Type";
+import {Genre} from "../data/Genre";
+import {Author} from "../data/Author";
 
 @Component({
   selector: 'app-main-window',
-  templateUrl: './main-window.component.html',
-  styleUrls: ['./main-window.component.css']
+  templateUrl: './main-author-window.component.html',
+  styleUrls: ['./main-author-window.component.css']
 })
-export class MainWindowComponent implements OnInit {
+export class MainAuthorWindowComponent implements OnInit {
   tableForm: FormGroup;
   submitted = false;
   selected = '';
   user: User = null;
 
-  libraries: Library[] = null;
-  libraryColumns: string[] = ['id', 'name', 'address'];
+  authors: Author[] = null;
+  authorColumns: string[] = ['id', 'name',  'born', 'died'];
 
 
   constructor(public dialog: MatDialog, private formBuilder: FormBuilder, private service: LoginAndRegistrate, private mainLibraryService: MainLibraryService, private router: Router) {
@@ -34,9 +40,9 @@ export class MainWindowComponent implements OnInit {
       table: ['', Validators.compose([
         Validators.required
       ])],
-      library_name: [''],
-      library_address: [''],
-      library_id: ['']
+      author_name: [''],
+      author_born: [''],
+      author_died: [''],
     });
   }
 
@@ -46,39 +52,41 @@ export class MainWindowComponent implements OnInit {
 
   getData() {
     this.submitted = true;
-    this.libraries = null;
+    this.authors = null;
     if (this.tableForm.invalid) {
       return;
     } else if (this.selected === 'search') {
-      const library = new Library();
-      library.name = this.tableForm.value['library_name'];
-      library.address = this.tableForm.value['library_address'];
+      const author = new Author();
+      author.name = this.tableForm.value['author_name'];
+      author.born = this.tableForm.value['author_born'];
+      author.died = this.tableForm.value['author_died'];
       this.clear();
-      this.mainLibraryService.searchLibrary(library).subscribe((answer: Library[]) => {
+      this.mainLibraryService.searchAuthor(author).subscribe((answer: Author[]) => {
         if (answer != null) {
-          this.libraries = answer;
+          this.authors = answer;
         } else {
           alert('Ошибка! Данные отсутствуют!')
         }
       });
     } else if (this.selected === 'add') {
-      const library = new Library();
-      library.name = this.tableForm.value['library_name'];
-      library.address = this.tableForm.value['library_address'];
+      const author = new Author();
+      author.name = this.tableForm.value['author_name'];
+      author.born = this.tableForm.value['author_born'];
+      author.died = this.tableForm.value['author_died'];
       this.clear();
-      this.mainLibraryService.addLibrary(library).subscribe((answer: Library[]) => {
-        this.getLibrariesFromDB();
+      this.mainLibraryService.addAuthors(author).subscribe((answer: Author[]) => {
+        this.getAuthorsFromDB();
       });
     } else if (this.selected === 'get') {
-      this.getLibrariesFromDB();
+      this.getAuthorsFromDB();
     }
     this.submitted = false;
   }
 
-  private getLibrariesFromDB() {
-    this.mainLibraryService.getLibraries().subscribe((answer: Library[]) => {
+  private getAuthorsFromDB() {
+    this.mainLibraryService.getAuthors().subscribe((answer: Author[]) => {
       if (answer != null) {
-        this.libraries = answer;
+        this.authors = answer;
       } else {
         alert('Ошибка! Данные отсутствуют!')
       }
@@ -86,7 +94,7 @@ export class MainWindowComponent implements OnInit {
   }
 
   clear() {
-    this.libraries = null;
+    this.authors = null;
   }
 
   goLibraries() {

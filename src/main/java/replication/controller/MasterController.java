@@ -101,6 +101,18 @@ public class MasterController {
         return genreRepository.save(genre);
     }
 
+    @Operation(summary = "Получить данные по всем типам")
+    @GetMapping("/types")
+    List<Type> getType(@RequestParam(required = false) String name) {
+        return typeRepository.findAll(Example.of(new Type(name)));
+    }
+
+    @Operation(summary = "Получить данные по всем жанрам")
+    @GetMapping("/genres")
+    List<Genre> getGenre(@RequestParam(required = false) String name) {
+        return genreRepository.findAll(Example.of(new Genre(name)));
+    }
+
     @Operation(summary = "Добавить новый тип книги")
     @PostMapping("/types")
     Type addType(@RequestBody Type type) {
@@ -113,13 +125,13 @@ public class MasterController {
         return readerRepository.findAll(Example.of(new Reader(name, pasp, phone)));
     }
 
-    @Operation(summary = "Получить все книги автора или всех авторов книги")
+    @Operation(summary = "Получить все все произведения автора")
     @GetMapping("/authorWorks")
     List<AuthorsOfWork> findWorksByAuthor(@RequestParam(required = false) String authorName, @RequestParam(required = false) String workName) {
         return authorsOfWorkRepository.findAll(Example.of(new AuthorsOfWork(authorName, workName)));
     }
 
-    @Operation(summary = "Получить все произведения автора")
+    @Operation(summary = "Получить все книги автора")
     @GetMapping("/authorBooks")
     List<AuthorsOfBook> findBookByAuthor(@RequestParam(required = false) String authorName, @RequestParam(required = false) String bookName) {
         return authorsOfBookRepository.findAll(Example.of(new AuthorsOfBook(authorName, bookName)));

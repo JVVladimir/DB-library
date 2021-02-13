@@ -34,8 +34,8 @@
         <div id="mainNavbar">
           <ul class="flex-column mr-auto">
 
-            <li class="nav-item active">
-              <a class="nav-link" (click)="goLibraries()"> Библиотеки <span class="sr-only">(current)</span></a>
+            <li class="nav-item">
+              <a class="nav-link" (click)="goLibraries()"> Библиотеки </a>
             </li>
 
             <li class="nav-item">
@@ -66,8 +66,8 @@
               <a class="nav-link" (click)="goReaders()"> Читатели </a>
             </li>
 
-            <li class="nav-item">
-              <a class="nav-link" (click)="goOrders()"> Заказы </a>
+            <li class="nav-item active">
+              <a class="nav-link" (click)="goOrders()"> Заказы <span class="sr-only">(current)</span></a>
             </li>
 
             <li class="nav-item">
@@ -81,6 +81,7 @@
             <li class="nav-item">
               <a class="nav-link" (click)="goAuthorsOfWorks()"> Авторы произведений </a>
             </li>
+
 
           </ul>
         </div>
@@ -99,9 +100,9 @@
 
         <div class="col-md-8">
           <article>
-            <h2 class="article-title"> Библиотеки </h2>
+            <h2 class="article-title"> Заказы </h2>
 
-            <p class="article-meta"> Доступна работа с таблицей "библиотеки" в базе данных</p>
+            <p class="article-meta"> Доступна работа с таблицей "заказы" в базе данных</p>
 
             <form  class="login100-form validate-form" [formGroup]="tableForm" (ngSubmit)="getData()">
               <div class="wrap-input100 validate-input m-b-26" >
@@ -109,53 +110,10 @@
                 <mat-form-field >
                   <mat-select [(value)]="selected" (selectionChange)="clear()" id="table" formControlName="table" [ngClass]="{ 'is-invalid': submitted && logn.table.errors }" >
                     <mat-option value="get">Получить все данные</mat-option>
-                    <mat-option value="search">Поиск по полям</mat-option>
-                    <mat-option value="add">Вставить запись</mat-option>
                   </mat-select>
                 </mat-form-field>
                 <span class="focus-input100"></span>
               </div>
-
-              <table class="" *ngIf="selected ==='search'">
-                <h5>Добавьте параметры для поиска или оставьте поля пустыми: </h5>
-                <tr >
-                  <th>
-                    <p  class="input100" > name </p>
-                  </th>
-                  <th>
-                    <input class="input100 form-control" type="text" name="library_name" placeholder="Enter name"  id="library_name" formControlName="library_name" >
-                  </th>
-                </tr>
-                <tr >
-                  <th>
-                    <p  class="input100" > address </p>
-                  </th>
-                  <th>
-                    <input class="input100 form-control" type="text" name="library_address" placeholder="Enter address"  id="library_address"  formControlName="library_address" >
-                  </th>
-                </tr>
-              </table>
-
-              <table class="" *ngIf="selected ==='add'">
-                <h5>Необходимо заполнить следующие поля: </h5>
-                <tr >
-                  <th>
-                    <p  class="input100" > name </p>
-                  </th>
-                  <th>
-                    <input class="input100 form-control" type="text" name="library_name" placeholder="Enter name"  id="library_name" formControlName="library_name" >
-                  </th>
-                </tr>
-                <tr >
-                  <th>
-                    <p  class="input100" > address </p>
-                  </th>
-                  <th>
-                    <input class="input100 form-control" type="text" name="library_address" placeholder="Enter username"  id="library_address"  formControlName="library_address" >
-                  </th>
-                </tr>
-              </table>
-
 
 
               <div class="container-login100-form-btn" >
@@ -165,7 +123,7 @@
               </div>
 
 
-              <div *ngIf="libraries!=null"
+              <div *ngIf="orders!=null"
                    class="container-login100" >
                 <span class="focus-input100"> </span>
                 <span class="focus-input100"> </span>
@@ -173,21 +131,38 @@
                 <h5> Результаты выполнения операции: </h5>
               </div>
 
-              <table mat-table class="mat-elevation-z8" style="width: 100%" *ngIf="libraries!=null" [dataSource]="libraries">
+
+              <table mat-table class="mat-elevation-z8" style="width: 100%" *ngIf="orders!=null" [dataSource]="orders">
                 <ng-container matColumnDef="id">
                   <th mat-header-cell *matHeaderCellDef > id </th>
                   <td mat-cell *matCellDef="let element"> {{element.id}} </td>
                 </ng-container>
-                <ng-container matColumnDef="name">
-                  <th mat-header-cell *matHeaderCellDef > Название </th>
-                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                <ng-container matColumnDef="reader">
+                  <th mat-header-cell *matHeaderCellDef > id читателя </th>
+                  <td mat-cell *matCellDef="let element"> {{element.reader}} </td>
                 </ng-container>
-                <ng-container matColumnDef="address">
-                  <th mat-header-cell *matHeaderCellDef > Адрес </th>
-                  <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+                <ng-container matColumnDef="createDate">
+                  <th mat-header-cell *matHeaderCellDef > Дата создания </th>
+                  <td mat-cell *matCellDef="let element"> {{element.createDate}} </td>
                 </ng-container>
-                <tr mat-header-row *matHeaderRowDef="libraryColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: libraryColumns;"></tr>
+                <ng-container matColumnDef="execDate">
+                  <th mat-header-cell *matHeaderCellDef > Дата исполнения </th>
+                  <td mat-cell *matCellDef="let element"> {{element.execDate}} </td>
+                </ng-container>
+                <ng-container matColumnDef="library">
+                  <th mat-header-cell *matHeaderCellDef > id библиотеки </th>
+                  <td mat-cell *matCellDef="let element"> {{element.library}} </td>
+                </ng-container>
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef > Статус </th>
+                  <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                </ng-container>
+                <ng-container matColumnDef="book">
+                  <th mat-header-cell *matHeaderCellDef > id книги </th>
+                  <td mat-cell *matCellDef="let element"> {{element.book}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="orderColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: orderColumns;"></tr>
               </table>
 
             </form>

@@ -6,20 +6,26 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Library} from "../data/Library";
 import {MainLibraryService} from "../services/ManLibraryService";
+import {Book} from "../data/Book";
+import {Work} from "../data/Work";
+import {Publisher} from "../data/Publisher";
+import {Type} from "../data/Type";
+import {Genre} from "../data/Genre";
+import {Author} from "../data/Author";
 
 @Component({
   selector: 'app-main-window',
-  templateUrl: './main-window.component.html',
-  styleUrls: ['./main-window.component.css']
+  templateUrl: './main-genre-window.component.html',
+  styleUrls: ['./main-genre-window.component.css']
 })
-export class MainWindowComponent implements OnInit {
+export class MainGenreWindowComponent implements OnInit {
   tableForm: FormGroup;
   submitted = false;
   selected = '';
   user: User = null;
 
-  libraries: Library[] = null;
-  libraryColumns: string[] = ['id', 'name', 'address'];
+  genres: Genre[] = null;
+  genreColumns: string[] = ['id', 'name'];
 
 
   constructor(public dialog: MatDialog, private formBuilder: FormBuilder, private service: LoginAndRegistrate, private mainLibraryService: MainLibraryService, private router: Router) {
@@ -34,51 +40,45 @@ export class MainWindowComponent implements OnInit {
       table: ['', Validators.compose([
         Validators.required
       ])],
-      library_name: [''],
-      library_address: [''],
-      library_id: ['']
+      genre_name: ['']
     });
   }
 
   get logn() { return this.tableForm.controls; }
 
-
-
   getData() {
     this.submitted = true;
-    this.libraries = null;
+    this.genres = null;
     if (this.tableForm.invalid) {
       return;
     } else if (this.selected === 'search') {
-      const library = new Library();
-      library.name = this.tableForm.value['library_name'];
-      library.address = this.tableForm.value['library_address'];
+      const genre = new Genre();
+      genre.name = this.tableForm.value['genre_name'];
       this.clear();
-      this.mainLibraryService.searchLibrary(library).subscribe((answer: Library[]) => {
+      this.mainLibraryService.searchGenre(genre).subscribe((answer: Genre[]) => {
         if (answer != null) {
-          this.libraries = answer;
+          this.genres = answer;
         } else {
           alert('Ошибка! Данные отсутствуют!')
         }
       });
     } else if (this.selected === 'add') {
-      const library = new Library();
-      library.name = this.tableForm.value['library_name'];
-      library.address = this.tableForm.value['library_address'];
+      const genre = new Genre();
+      genre.name = this.tableForm.value['genre_name'];
       this.clear();
-      this.mainLibraryService.addLibrary(library).subscribe((answer: Library[]) => {
-        this.getLibrariesFromDB();
+      this.mainLibraryService.addGenres(genre).subscribe((answer: Genre[]) => {
+        this.getGenresFromDB();
       });
     } else if (this.selected === 'get') {
-      this.getLibrariesFromDB();
+      this.getGenresFromDB();
     }
     this.submitted = false;
   }
 
-  private getLibrariesFromDB() {
-    this.mainLibraryService.getLibraries().subscribe((answer: Library[]) => {
+  private getGenresFromDB() {
+    this.mainLibraryService.getGenres().subscribe((answer: Genre[]) => {
       if (answer != null) {
-        this.libraries = answer;
+        this.genres = answer;
       } else {
         alert('Ошибка! Данные отсутствуют!')
       }
@@ -86,7 +86,7 @@ export class MainWindowComponent implements OnInit {
   }
 
   clear() {
-    this.libraries = null;
+    this.genres = null;
   }
 
   goLibraries() {

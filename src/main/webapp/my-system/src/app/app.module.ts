@@ -9,25 +9,34 @@ import { FormsModule } from '@angular/forms';
 import {HttpClientModule} from "@angular/common/http";
 import { ReactiveFormsModule } from '@angular/forms';
 import { MainWindowComponent } from './main-window/main-window.component';
-import { AddRowWindowComponent } from './add-row-window/add-row-window.component';
-import {DialogOverviewExampleDialog, EditRowWindowComponent} from './edit-row-window/edit-row-window.component';
-import {DeleteRowWindowComponent } from './delete-row-window/delete-row-window.component';
-import {TaskService} from "./services/TaskService";
 import {LoginAndRegistrate} from "./services/LoginAndRegistrate";
 import {DemoMaterialModule} from "./material-module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatNativeDateModule} from "@angular/material";
-import {TableService} from "./services/TableService";
-import {ShowWindowComponent} from "./show-window/show-window.component";
+import {MainLibraryService} from "./services/ManLibraryService";
+import {MainBookWindowComponent} from "./main-book-window/main-book-window.component";
+import {MainWorkWindowComponent} from "./main-work-window/main-work-window.component";
+import {MainAuthorWindowComponent} from "./main-author-window/main-author-window.component";
+import {MainPublisherWindowComponent} from "./main-publisher-window/main-publisher-window.component";
+import {MainTypeWindowComponent} from "./main-type-window/main-type-window.component";
+import {MainGenreWindowComponent} from "./main-genre-window/main-genre-window.component";
+import {MainReaderWindowComponent} from "./main-reader-window/main-reader-window.component";
+import {MainOrdersWindowComponent} from "./main-orders-window/main-orders-window.component";
+import {MainAccountingWindowComponent} from "./main-accounting-window/main-accounting-window.component";
 
 
 const appRoutes: Routes = [
   { path: '', component:  WindowHomeComponentComponent },
-  { path: 'main', component: MainWindowComponent },
-  { path: 'show', component: ShowWindowComponent },
-  { path: 'add', component: AddRowWindowComponent },
-  { path: 'delete', component:  DeleteRowWindowComponent },
-  { path: 'edit', component: EditRowWindowComponent }
+  { path: 'mainLibrary', component: MainWindowComponent },
+  { path: 'mainBookLibrary', component: MainBookWindowComponent },
+  { path: 'mainWorkLibrary', component: MainWorkWindowComponent},
+  { path: 'mainAuthorLibrary', component: MainAuthorWindowComponent},
+  { path: 'mainPublisherLibrary', component: MainPublisherWindowComponent},
+  { path: 'mainTypeLibrary', component: MainTypeWindowComponent},
+  { path: 'mainGenreLibrary', component: MainGenreWindowComponent},
+  { path: 'mainReaderLibrary', component: MainReaderWindowComponent},
+  { path: 'mainOrdersLibrary', component: MainOrdersWindowComponent},
+  { path: 'mainAccountingLibrary', component: MainAccountingWindowComponent}
 ];
 
 @NgModule({
@@ -35,11 +44,15 @@ const appRoutes: Routes = [
     AppComponent,
     WindowHomeComponentComponent,
     MainWindowComponent,
-    ShowWindowComponent,
-    AddRowWindowComponent,
-    EditRowWindowComponent,
-    DeleteRowWindowComponent,
-    DialogOverviewExampleDialog
+    MainBookWindowComponent,
+    MainWorkWindowComponent,
+    MainAuthorWindowComponent,
+    MainPublisherWindowComponent,
+    MainTypeWindowComponent,
+    MainGenreWindowComponent,
+    MainReaderWindowComponent,
+    MainOrdersWindowComponent,
+    MainAccountingWindowComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -52,8 +65,8 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MatNativeDateModule,
   ],
-  entryComponents: [EditRowWindowComponent, DialogOverviewExampleDialog],
-  providers: [LoginAndRegistrate, TaskService, TableService],
+  entryComponents: [],
+  providers: [LoginAndRegistrate, MainLibraryService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

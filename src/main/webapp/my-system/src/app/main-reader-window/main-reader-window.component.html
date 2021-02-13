@@ -34,8 +34,8 @@
         <div id="mainNavbar">
           <ul class="flex-column mr-auto">
 
-            <li class="nav-item active">
-              <a class="nav-link" (click)="goLibraries()"> Библиотеки <span class="sr-only">(current)</span></a>
+            <li class="nav-item">
+              <a class="nav-link" (click)="goLibraries()"> Библиотеки </a>
             </li>
 
             <li class="nav-item">
@@ -62,8 +62,8 @@
               <a class="nav-link" (click)="goGenres()"> Жанры </a>
             </li>
 
-            <li class="nav-item">
-              <a class="nav-link" (click)="goReaders()"> Читатели </a>
+            <li class="nav-item active">
+              <a class="nav-link" (click)="goReaders()"> Читатели <span class="sr-only">(current)</span></a>
             </li>
 
             <li class="nav-item">
@@ -82,6 +82,7 @@
               <a class="nav-link" (click)="goAuthorsOfWorks()"> Авторы произведений </a>
             </li>
 
+
           </ul>
         </div>
       </nav>
@@ -99,9 +100,9 @@
 
         <div class="col-md-8">
           <article>
-            <h2 class="article-title"> Библиотеки </h2>
+            <h2 class="article-title"> Читатели </h2>
 
-            <p class="article-meta"> Доступна работа с таблицей "библиотеки" в базе данных</p>
+            <p class="article-meta"> Доступна работа с таблицей "читатели" в базе данных</p>
 
             <form  class="login100-form validate-form" [formGroup]="tableForm" (ngSubmit)="getData()">
               <div class="wrap-input100 validate-input m-b-26" >
@@ -123,15 +124,23 @@
                     <p  class="input100" > name </p>
                   </th>
                   <th>
-                    <input class="input100 form-control" type="text" name="library_name" placeholder="Enter name"  id="library_name" formControlName="library_name" >
+                    <input class="input100 form-control" type="text" name="reader_name" placeholder="Enter name"  id="reader_name" formControlName="reader_name" >
                   </th>
                 </tr>
                 <tr >
                   <th>
-                    <p  class="input100" > address </p>
+                    <p  class="input100" > pasp </p>
                   </th>
                   <th>
-                    <input class="input100 form-control" type="text" name="library_address" placeholder="Enter address"  id="library_address"  formControlName="library_address" >
+                    <input class="input100 form-control" type="text" name="reader_pasp" placeholder="Enter pasp"  id="reader_pasp" formControlName="reader_pasp" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > phone </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="reader_phone" placeholder="Enter phone"  id="reader_phone" formControlName="reader_phone" >
                   </th>
                 </tr>
               </table>
@@ -143,7 +152,7 @@
                     <p  class="input100" > name </p>
                   </th>
                   <th>
-                    <input class="input100 form-control" type="text" name="library_name" placeholder="Enter name"  id="library_name" formControlName="library_name" >
+                    <input class="input100 form-control" type="text" name="reader_name" placeholder="Enter name"  id="reader_name" formControlName="reader_name" >
                   </th>
                 </tr>
                 <tr >
@@ -151,7 +160,39 @@
                     <p  class="input100" > address </p>
                   </th>
                   <th>
-                    <input class="input100 form-control" type="text" name="library_address" placeholder="Enter username"  id="library_address"  formControlName="library_address" >
+                    <input class="input100 form-control" type="text" name="reader_address" placeholder="Enter address"  id="reader_address" formControlName="reader_address" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > pasp </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="reader_pasp" placeholder="Enter pasp"  id="reader_pasp" formControlName="reader_pasp" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > phone </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="reader_phone" placeholder="Enter phone"  id="reader_phone" formControlName="reader_phone" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > mail </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="reader_mail" placeholder="Enter mail"  id="reader_mail" formControlName="reader_mail" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > library id </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="library_id" placeholder="Enter library id"  id="library_id" formControlName="library_id" >
                   </th>
                 </tr>
               </table>
@@ -165,7 +206,7 @@
               </div>
 
 
-              <div *ngIf="libraries!=null"
+              <div *ngIf="readers!=null"
                    class="container-login100" >
                 <span class="focus-input100"> </span>
                 <span class="focus-input100"> </span>
@@ -173,21 +214,42 @@
                 <h5> Результаты выполнения операции: </h5>
               </div>
 
-              <table mat-table class="mat-elevation-z8" style="width: 100%" *ngIf="libraries!=null" [dataSource]="libraries">
+
+              <table mat-table class="mat-elevation-z8" style="width: 100%" *ngIf="readers!=null" [dataSource]="readers">
                 <ng-container matColumnDef="id">
                   <th mat-header-cell *matHeaderCellDef > id </th>
                   <td mat-cell *matCellDef="let element"> {{element.id}} </td>
                 </ng-container>
                 <ng-container matColumnDef="name">
-                  <th mat-header-cell *matHeaderCellDef > Название </th>
+                  <th mat-header-cell *matHeaderCellDef > Имя </th>
                   <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+                <ng-container matColumnDef="pasp">
+                  <th mat-header-cell *matHeaderCellDef > Паспорт </th>
+                  <td mat-cell *matCellDef="let element"> {{element.pasp}} </td>
                 </ng-container>
                 <ng-container matColumnDef="address">
                   <th mat-header-cell *matHeaderCellDef > Адрес </th>
                   <td mat-cell *matCellDef="let element"> {{element.address}} </td>
                 </ng-container>
-                <tr mat-header-row *matHeaderRowDef="libraryColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: libraryColumns;"></tr>
+                <ng-container matColumnDef="phone">
+                  <th mat-header-cell *matHeaderCellDef > Телефон </th>
+                  <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+                </ng-container>
+                <ng-container matColumnDef="mail">
+                  <th mat-header-cell *matHeaderCellDef > Почта </th>
+                  <td mat-cell *matCellDef="let element"> {{element.mail}} </td>
+                </ng-container>
+                <ng-container matColumnDef="library_name">
+                  <th mat-header-cell *matHeaderCellDef > Название библиотеки </th>
+                  <td mat-cell *matCellDef="let element"> {{element.library['name']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="library_address">
+                  <th mat-header-cell *matHeaderCellDef > Адресс библиотеки </th>
+                  <td mat-cell *matCellDef="let element"> {{element.library['address']}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="readerColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: readerColumns;"></tr>
               </table>
 
             </form>

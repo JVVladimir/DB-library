@@ -44,12 +44,19 @@ export class WindowHomeComponentComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     } else {
-      console.log("natasha")
       this.loginService.loginUser(this.loginForm.value).subscribe(data => {
-        console.log("Hello world: " + data);
-        if(data.status == 200)  {
+        console.log(data['status']);
+        if(data['status'] == 'ok')  {
           this.loginService.setData(this.loginForm.value);
-          this.router.navigateByUrl('/main');
+          if (this.loginForm.value.username == 'mainLibrarian') {
+            this.router.navigateByUrl('/mainLibrary');
+          } else if (this.loginForm.value.username == 'librarian') {
+
+          } else if (this.loginForm.value.username == 'director') {
+
+          } else if (this.loginForm.value.username == 'transporter') {
+
+          }
         } else {
           alert('Неверный логин или пароль!');
         }

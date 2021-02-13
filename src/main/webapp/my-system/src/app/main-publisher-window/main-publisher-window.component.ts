@@ -6,20 +6,26 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Library} from "../data/Library";
 import {MainLibraryService} from "../services/ManLibraryService";
+import {Book} from "../data/Book";
+import {Work} from "../data/Work";
+import {Publisher} from "../data/Publisher";
+import {Type} from "../data/Type";
+import {Genre} from "../data/Genre";
+import {Author} from "../data/Author";
 
 @Component({
   selector: 'app-main-window',
-  templateUrl: './main-window.component.html',
-  styleUrls: ['./main-window.component.css']
+  templateUrl: './main-publisher-window.component.html',
+  styleUrls: ['./main-publisher-window.component.css']
 })
-export class MainWindowComponent implements OnInit {
+export class MainPublisherWindowComponent implements OnInit {
   tableForm: FormGroup;
   submitted = false;
   selected = '';
   user: User = null;
 
-  libraries: Library[] = null;
-  libraryColumns: string[] = ['id', 'name', 'address'];
+  publishers: Publisher[] = null;
+  publisherColumns: string[] = ['id', 'name',  'address', 'phone', 'mail'];
 
 
   constructor(public dialog: MatDialog, private formBuilder: FormBuilder, private service: LoginAndRegistrate, private mainLibraryService: MainLibraryService, private router: Router) {
@@ -34,9 +40,10 @@ export class MainWindowComponent implements OnInit {
       table: ['', Validators.compose([
         Validators.required
       ])],
-      library_name: [''],
-      library_address: [''],
-      library_id: ['']
+      publisher_name: [''],
+      publisher_address: [''],
+      publisher_phone: [''],
+      publisher_mail: ['']
     });
   }
 
@@ -46,39 +53,41 @@ export class MainWindowComponent implements OnInit {
 
   getData() {
     this.submitted = true;
-    this.libraries = null;
+    this.publishers = null;
     if (this.tableForm.invalid) {
       return;
     } else if (this.selected === 'search') {
-      const library = new Library();
-      library.name = this.tableForm.value['library_name'];
-      library.address = this.tableForm.value['library_address'];
+      const publisher = new Publisher();
+      publisher.name = this.tableForm.value['publisher_name'];
+      publisher.address = this.tableForm.value['publisher_address'];
       this.clear();
-      this.mainLibraryService.searchLibrary(library).subscribe((answer: Library[]) => {
+      this.mainLibraryService.searchPublisher(publisher).subscribe((answer: Publisher[]) => {
         if (answer != null) {
-          this.libraries = answer;
+          this.publishers = answer;
         } else {
           alert('Ошибка! Данные отсутствуют!')
         }
       });
     } else if (this.selected === 'add') {
-      const library = new Library();
-      library.name = this.tableForm.value['library_name'];
-      library.address = this.tableForm.value['library_address'];
+      const publisher = new Publisher();
+      publisher.name = this.tableForm.value['publisher_name'];
+      publisher.address = this.tableForm.value['publisher_address'];
+      publisher.phone = this.tableForm.value['publisher_phone'];
+      publisher.mail = this.tableForm.value['publisher_mail'];
       this.clear();
-      this.mainLibraryService.addLibrary(library).subscribe((answer: Library[]) => {
-        this.getLibrariesFromDB();
+      this.mainLibraryService.addPublisher(publisher).subscribe((answer: Publisher[]) => {
+        this.getPublishersFromDB();
       });
     } else if (this.selected === 'get') {
-      this.getLibrariesFromDB();
+      this.getPublishersFromDB();
     }
     this.submitted = false;
   }
 
-  private getLibrariesFromDB() {
-    this.mainLibraryService.getLibraries().subscribe((answer: Library[]) => {
+  private getPublishersFromDB() {
+    this.mainLibraryService.getPublishers().subscribe((answer: Publisher[]) => {
       if (answer != null) {
-        this.libraries = answer;
+        this.publishers = answer;
       } else {
         alert('Ошибка! Данные отсутствуют!')
       }
@@ -86,7 +95,7 @@ export class MainWindowComponent implements OnInit {
   }
 
   clear() {
-    this.libraries = null;
+    this.publishers = null;
   }
 
   goLibraries() {
