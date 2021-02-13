@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Getter
 public class AccountingId implements Serializable {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ac_id")
     private Long id;
 

@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class OrderId implements Serializable {
 
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "or_id")
     private Long id;
 

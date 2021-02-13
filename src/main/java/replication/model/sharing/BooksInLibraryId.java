@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Getter
 public class BooksInLibraryId implements Serializable {
     
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bl_id")
     private Long id;
 

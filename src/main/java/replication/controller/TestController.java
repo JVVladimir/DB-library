@@ -27,12 +27,12 @@ public class TestController {
         return ResponseEntity.ok().build();
     }
 
-//    @PostMapping("/logout")
-//    ResponseEntity<String> logout() {
-//        SecurityContext sc = SecurityContextHolder.getContext();
-//        sc.
-//        sc.setAuthentication(auth);
-//        return ResponseEntity.ok().build();
-//    }
+    /**
+     * {
+     *     "login": "mainLibrarian",
+     *     "password": "password"
+     * }
+     *
+     * */
 
 }

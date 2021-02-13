@@ -15,7 +15,7 @@ import java.util.Set;
 public class Reader {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "r_id")
     private Long id;
 

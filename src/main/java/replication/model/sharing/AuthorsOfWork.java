@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class AuthorsOfWork {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "aw_id")
     private Long id;
 
