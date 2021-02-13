@@ -1,7 +1,11 @@
 package replication.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.BeanIds;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,6 +19,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -29,23 +35,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-               // .requestMatchers(CorsUtils::isCorsRequest).permitAll()
                 .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger-resources/configuration/ui", "/swagger-ui.html")
                 .permitAll()
                 .antMatchers("/main-library/**").hasAnyRole(Role.MAIN_LIBRARIAN.name(), Role.DIRECTOR.name())
                 .antMatchers("/filial-library/**").hasRole(Role.LIBRARIAN.name())
                 .antMatchers("/consolidation/**").hasAnyRole(Role.MAIN_LIBRARIAN.name(), Role.LIBRARIAN.name(), Role.TRANSPORTER.name(), Role.DIRECTOR.name())
-                .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin()
-                .loginProcessingUrl("/auth/login")
-                .permitAll()
+                .antMatchers("/auth/login").permitAll()
                 .and()
                 .logout()
+                .logoutUrl("/auth/logout")
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout", "POST"));
+                .permitAll();
     }
 
     @Bean
@@ -84,15 +85,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder(12);
     }
 
-      @Bean
+    @Bean
     CorsConfigurationSource corsConfigurationSource() {
-          CorsConfiguration configuration = new CorsConfiguration();
-          configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
-          configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
-          configuration.setAllowedHeaders(Collections.singletonList("*"));
-          configuration.setAllowCredentials(true);
-          UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-          source.registerCorsConfiguration("/**", configuration);
-          return source;
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
+        configuration.setAllowedHeaders(Collections.singletonList("*"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+    @Autowired
+    public void initialize(AuthenticationManagerBuilder builder) throws Exception {
+        builder.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
+    }
+
+    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }
