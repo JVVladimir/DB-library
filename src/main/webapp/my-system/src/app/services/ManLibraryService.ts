@@ -10,6 +10,10 @@ import {Publisher} from "../data/Publisher";
 import {Type} from "../data/Type";
 import {Genre} from "../data/Genre";
 import {Reader} from "../data/Reader";
+import {PublishedWorks} from "../data/PublishedWorks";
+import {AuthorsOfWorks} from "../data/AuthorsOfWorks";
+import {AuthorsOfBooks} from "../data/AuthorsOfBooks";
+import {BooksInLibrary} from "../data/BooksInLibrary";
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -63,8 +67,29 @@ export class MainLibraryService {
     return this.httpClient.get(this.consolidationUrl + "orders", httpOptions);
   }
 
+  getBooksInLib():  Observable<any>  {
+    return this.httpClient.get(this.customersUrl + "booksInLibrary", httpOptions);
+  }
+
+  getAuthorsOfBooks():  Observable<any>  {
+    return this.httpClient.get(this.customersUrl + "authorBooks", httpOptions);
+  }
+
+  getAuthorsOfWork():  Observable<any>  {
+    return this.httpClient.get(this.customersUrl + "authorWorks", httpOptions);
+  }
+
+  getPublishedWorks():  Observable<any>  {
+    return this.httpClient.get(this.customersUrl + "publishedWorks", httpOptions);
+  }
+
+
   getAccounts():  Observable<any>  {
     return this.httpClient.get(this.consolidationUrl + "accounts", httpOptions);
+  }
+
+  addBooksInLib(booksInLibrary: BooksInLibrary):  Observable<any>  {
+    return this.httpClient.post(this.customersUrl + "booksInLibrary", booksInLibrary, httpOptions);
   }
 
   addReader(reader: Reader):  Observable<any>  {
@@ -83,8 +108,20 @@ export class MainLibraryService {
     return this.httpClient.post(this.customersUrl + "genres", genre, httpOptions);
   }
 
+  addAuthorOfWork(authorOfWork: AuthorsOfWorks):  Observable<any>  {
+    return this.httpClient.post(this.customersUrl + "authorWorks", authorOfWork, httpOptions);
+  }
+
+  addAuthorOfBook(authorOfBook: AuthorsOfBooks):  Observable<any>  {
+    return this.httpClient.post(this.customersUrl + "authorBooks", authorOfBook, httpOptions);
+  }
+
   addBooks(book: Book):  Observable<any>  {
     return this.httpClient.post(this.customersUrl + "books", book, httpOptions);
+  }
+
+  addPublishedWork(publishedWork: PublishedWorks):  Observable<any>  {
+    return this.httpClient.post(this.customersUrl + "publishedWorks", publishedWork, httpOptions);
   }
 
   addWorks(work: Work):  Observable<any>  {
@@ -98,6 +135,72 @@ export class MainLibraryService {
   addPublisher(publisher: Publisher):  Observable<any>  {
     return this.httpClient.post(this.customersUrl + "publishers", publisher, httpOptions);
   }
+
+  searchAuthorOfWork(authorOfWork: AuthorsOfWorks):  Observable<any>  {
+    let params = new HttpParams();
+    if (authorOfWork.author.name != null  && authorOfWork.author.name  != undefined && authorOfWork.author.name.trim().length != 0) {
+      params = params.append('authorName',authorOfWork.author.name .trim());
+    }
+    if (authorOfWork.work.name  != null  && authorOfWork.work.name != undefined && authorOfWork.work.name.trim().length != 0) {
+      params = params.append('workName', authorOfWork.work.name.trim());
+    }
+    let opt = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      withCredentials: true,
+      params: params
+    };
+    return this.httpClient.get(this.customersUrl + "authorWorks/", opt);
+  }
+
+  searchAuthorOfBook(authorOfBook: AuthorsOfBooks):  Observable<any>  {
+    let params = new HttpParams();
+    if (authorOfBook.author.name != null  && authorOfBook.author.name  != undefined && authorOfBook.author.name.trim().length != 0) {
+      params = params.append('authorName',authorOfBook.author.name.trim());
+    }
+    if (authorOfBook.book.name  != null  && authorOfBook.book.name != undefined && authorOfBook.book.name.trim().length != 0) {
+      params = params.append('bookName', authorOfBook.book.name.trim());
+    }
+    let opt = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      withCredentials: true,
+      params: params
+    };
+    return this.httpClient.get(this.customersUrl + "authorBooks/", opt);
+  }
+
+  searchBookInLib(bookInLib: BooksInLibrary):  Observable<any>  {
+    let params = new HttpParams();
+    if (bookInLib.booksInLibraryId.library.name != null  && bookInLib.booksInLibraryId.library.name != undefined && bookInLib.booksInLibraryId.library.name.trim().length != 0) {
+      params = params.append('libraryName', bookInLib.booksInLibraryId.library.name.trim());
+    }
+    if (bookInLib.book.name  != null  && bookInLib.book.name != undefined && bookInLib.book.name.trim().length != 0) {
+      params = params.append('bookName', bookInLib.book.name.trim());
+    }
+    let opt = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      withCredentials: true,
+      params: params
+    };
+    return this.httpClient.get(this.customersUrl + "booksInLibrary/", opt);
+  }
+
+
+  searchPublishedWorks(publishedWork: PublishedWorks):  Observable<any>  {
+    let params = new HttpParams();
+    if (publishedWork.book.name != null  && publishedWork.book.name != undefined && publishedWork.book.name.trim().length != 0) {
+      params = params.append('bookName', publishedWork.book.name.trim());
+    }
+    if (publishedWork.work.name != null  && publishedWork.work.name != undefined && publishedWork.work.name.trim().length != 0) {
+      params = params.append('workName', publishedWork.work.name.trim());
+    }
+    let opt = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      withCredentials: true,
+      params: params
+    };
+    return this.httpClient.get(this.customersUrl + "publishedWorks/", opt);
+  }
+
 
   searchReader(reader: Reader):  Observable<any>  {
     let params = new HttpParams();

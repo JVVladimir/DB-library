@@ -4,22 +4,26 @@ import {LoginAndRegistrate} from '../services/LoginAndRegistrate';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Library} from "../data/Library";
 import {MainLibraryService} from "../services/ManLibraryService";
+import {AuthorsOfWorks} from "../data/AuthorsOfWorks";
+import {PublishedWorks} from "../data/PublishedWorks";
+import {Author} from "../data/Author";
+import {Work} from "../data/Work";
+import {Book} from "../data/Book";
 
 @Component({
   selector: 'app-main-window',
-  templateUrl: './main-window.component.html',
-  styleUrls: ['./main-window.component.css']
+  templateUrl: './main-published-works-window.component.html',
+  styleUrls: ['./main-published-works-window.component.css']
 })
-export class MainWindowComponent implements OnInit {
+export class MainPublishedWorksWindowComponent implements OnInit {
   tableForm: FormGroup;
   submitted = false;
   selected = '';
   user: User = null;
 
-  libraries: Library[] = null;
-  libraryColumns: string[] = ['id', 'name', 'address'];
+  publishedWorks: PublishedWorks[] = null;
+  publishedWorksColumns: string[] = ['id', 'work_name', 'work_type', 'work_genre', 'book_name', 'publisher_name' , 'publisher_address' , 'publisher_phone' ,  'publisher_mail' ,'publish_year', 'isbn'];
 
 
   constructor(public dialog: MatDialog, private formBuilder: FormBuilder, private service: LoginAndRegistrate, private mainLibraryService: MainLibraryService, private router: Router) {
@@ -34,51 +38,54 @@ export class MainWindowComponent implements OnInit {
       table: ['', Validators.compose([
         Validators.required
       ])],
-      library_name: [''],
-      library_address: [''],
-      library_id: ['']
+      book_name: [''],
+      work_name: [''],
+      work_id: [''],
+      book_id: ['']
     });
   }
 
   get logn() { return this.tableForm.controls; }
 
-
-
   getData() {
     this.submitted = true;
-    this.libraries = null;
+    this.publishedWorks = null;
     if (this.tableForm.invalid) {
       return;
     } else if (this.selected === 'search') {
-      const library = new Library();
-      library.name = this.tableForm.value['library_name'];
-      library.address = this.tableForm.value['library_address'];
+      const publishedWork = new PublishedWorks();
+      publishedWork.work = new Work();
+      publishedWork.work.name = this.tableForm.value['work_name'];
+      publishedWork.book = new Book();
+      publishedWork.book.name = this.tableForm.value['book_name'];
       this.clear();
-      this.mainLibraryService.searchLibrary(library).subscribe((answer: Library[]) => {
+      this.mainLibraryService.searchPublishedWorks(publishedWork).subscribe((answer: PublishedWorks[]) => {
         if (answer != null) {
-          this.libraries = answer;
+          this.publishedWorks = answer;
         } else {
           alert('Ошибка! Данные отсутствуют!')
         }
       });
     } else if (this.selected === 'add') {
-      const library = new Library();
-      library.name = this.tableForm.value['library_name'];
-      library.address = this.tableForm.value['library_address'];
+      const publishedWork = new PublishedWorks();
+      publishedWork.work = new Work();
+      publishedWork.work.id = this.tableForm.value['work_id'];
+      publishedWork.book = new Book();
+      publishedWork.book.id = this.tableForm.value['book_id'];
       this.clear();
-      this.mainLibraryService.addLibrary(library).subscribe((answer: Library[]) => {
-        this.getLibrariesFromDB();
+      this.mainLibraryService.addPublishedWork(publishedWork).subscribe((answer: PublishedWorks[]) => {
+        this.getPublishedWorksFromDB();
       });
     } else if (this.selected === 'get') {
-      this.getLibrariesFromDB();
+      this.getPublishedWorksFromDB();
     }
     this.submitted = false;
   }
 
-  private getLibrariesFromDB() {
-    this.mainLibraryService.getLibraries().subscribe((answer: Library[]) => {
+  private getPublishedWorksFromDB() {
+    this.mainLibraryService.getPublishedWorks().subscribe((answer: PublishedWorks[]) => {
       if (answer != null) {
-        this.libraries = answer;
+        this.publishedWorks = answer;
       } else {
         alert('Ошибка! Данные отсутствуют!')
       }
@@ -86,7 +93,7 @@ export class MainWindowComponent implements OnInit {
   }
 
   clear() {
-    this.libraries = null;
+    this.publishedWorks = null;
   }
 
   goLibraries() {
@@ -116,7 +123,6 @@ export class MainWindowComponent implements OnInit {
   goGenres() {
     this.router.navigateByUrl('/mainGenreLibrary');
   }
-
   goReaders() {
     this.router.navigateByUrl('/mainReaderLibrary');
   }

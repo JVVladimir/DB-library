@@ -34,6 +34,7 @@ public class MasterController {
     private final LibraryRepository libraryRepository;
     private final PublisherRepository publisherRepository;
     private final WorkRepository workRepository;
+    private final PublishedWorkRepository publishedWorkRepository;
 
     @Operation(summary = "Получить книги")
     @GetMapping("/books")
@@ -101,6 +102,22 @@ public class MasterController {
         return genreRepository.save(genre);
     }
 
+    @Operation(summary = "Добавить новое опубликованное произведение")
+    @PostMapping("/publishedWorks")
+    PublishedWork addPublishedWorks(@RequestBody PublishedWork publishedWork) { return publishedWorkRepository.save(publishedWork); }
+
+    @Operation(summary = "Добавить автора произведения")
+    @PostMapping("/authorWorks")
+    AuthorsOfWork addAuthorOfWork(@RequestBody AuthorsOfWork authorsOfWork) {
+        return authorsOfWorkRepository.save(authorsOfWork);
+    }
+
+    @Operation(summary = "Добавить автора произведения")
+    @PostMapping("/authorBooks")
+    AuthorsOfBook addAuthorOfBook(@RequestBody AuthorsOfBook authorsOfBook) {
+        return authorsOfBookRepository.save(authorsOfBook);
+    }
+
     @Operation(summary = "Получить данные по всем типам")
     @GetMapping("/types")
     List<Type> getType(@RequestParam(required = false) String name) {
@@ -131,6 +148,12 @@ public class MasterController {
         return authorsOfWorkRepository.findAll(Example.of(new AuthorsOfWork(authorName, workName)));
     }
 
+    @Operation(summary = "Получить все все опубликованные произведения")
+    @GetMapping("/publishedWorks")
+    List<PublishedWork> findPublishedWork(@RequestParam(required = false) String bookName, @RequestParam(required = false) String workName) {
+        return publishedWorkRepository.findAll(Example.of(new PublishedWork(bookName, workName)));
+    }
+
     @Operation(summary = "Получить все книги автора")
     @GetMapping("/authorBooks")
     List<AuthorsOfBook> findBookByAuthor(@RequestParam(required = false) String authorName, @RequestParam(required = false) String bookName) {
@@ -143,10 +166,17 @@ public class MasterController {
         return readerRepository.save(reader);
     }
 
+
+    @Operation(summary = "Добавить новую книгу в библиотеку")
+    @PostMapping("/booksInLibrary")
+    BooksInLibrary addBooksInLibrary(@RequestBody BooksInLibrary booksInLibrary) {
+        return booksInLibraryRepository.save(booksInLibrary);
+    }
+
     @Operation(summary = "Получить данные по всем книгам в филиале")
     @GetMapping("/booksInLibrary")
-    List<BooksInLibrary> findBooksInLibrary() {
-        return booksInLibraryRepository.findAll();
+    List<BooksInLibrary> findBooksInLibrary(@RequestParam(required = false) String bookName, @RequestParam(required = false) String libraryName) {
+        return booksInLibraryRepository.findAll(Example.of(new BooksInLibrary(bookName, libraryName)));
     }
 
     @Operation(summary = "Количество экземпляров нужной книги в каждом филиале")

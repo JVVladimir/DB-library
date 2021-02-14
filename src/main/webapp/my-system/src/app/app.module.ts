@@ -23,6 +23,10 @@ import {MainGenreWindowComponent} from "./main-genre-window/main-genre-window.co
 import {MainReaderWindowComponent} from "./main-reader-window/main-reader-window.component";
 import {MainOrdersWindowComponent} from "./main-orders-window/main-orders-window.component";
 import {MainAccountingWindowComponent} from "./main-accounting-window/main-accounting-window.component";
+import {MainBooksInLibWindowComponent} from "./main-books-in-lib-window/main-books-in-lib-window.component";
+import {MainAuthorsOfBooksWindowComponent} from "./main-authors-of-books-window/main-authors-of-books-window.component";
+import {MainAuthorsOfWorksWindowComponent} from "./main-authors-of-works-window/main-authors-of-works-window.component";
+import {MainPublishedWorksWindowComponent} from "./main-published-works-window/main-published-works-window.component";
 
 
 const appRoutes: Routes = [
@@ -36,7 +40,11 @@ const appRoutes: Routes = [
   { path: 'mainGenreLibrary', component: MainGenreWindowComponent},
   { path: 'mainReaderLibrary', component: MainReaderWindowComponent},
   { path: 'mainOrdersLibrary', component: MainOrdersWindowComponent},
-  { path: 'mainAccountingLibrary', component: MainAccountingWindowComponent}
+  { path: 'mainAccountingLibrary', component: MainAccountingWindowComponent},
+  { path: 'mainBooksInLibLibrary', component: MainBooksInLibWindowComponent},
+  { path: 'mainAuthorsOfBooksLibrary', component: MainAuthorsOfBooksWindowComponent},
+  { path: 'mainAuthorsOfWorksLibrary', component: MainAuthorsOfWorksWindowComponent},
+  { path: 'mainPublishedWorksLibrary', component: MainPublishedWorksWindowComponent}
 ];
 
 @NgModule({
@@ -52,7 +60,11 @@ const appRoutes: Routes = [
     MainGenreWindowComponent,
     MainReaderWindowComponent,
     MainOrdersWindowComponent,
-    MainAccountingWindowComponent
+    MainAccountingWindowComponent,
+    MainBooksInLibWindowComponent,
+    MainAuthorsOfBooksWindowComponent,
+    MainAuthorsOfWorksWindowComponent,
+    MainPublishedWorksWindowComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

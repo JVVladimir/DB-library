@@ -34,8 +34,8 @@
         <div id="mainNavbar">
           <ul class="flex-column mr-auto">
 
-            <li class="nav-item active">
-              <a class="nav-link" (click)="goLibraries()"> Библиотеки <span class="sr-only">(current)</span></a>
+            <li class="nav-item">
+              <a class="nav-link" (click)="goLibraries()"> Библиотеки </a>
             </li>
 
             <li class="nav-item">
@@ -86,8 +86,8 @@
               <a class="nav-link" (click)="goAuthorsOfWorks()"> Авторы произведений </a>
             </li>
 
-            <li class="nav-item">
-              <a class="nav-link" (click)="goPublishedWorks()"> Опубликованные произведения </a>
+            <li class="nav-item active">
+              <a class="nav-link" (click)="goPublishedWorks()"> Опубликованные произведения <span class="sr-only">(current)</span></a>
             </li>
 
           </ul>
@@ -107,9 +107,9 @@
 
         <div class="col-md-8">
           <article>
-            <h2 class="article-title"> Библиотеки </h2>
+            <h2 class="article-title"> Опубликованные произведения </h2>
 
-            <p class="article-meta"> Доступна работа с таблицей "библиотеки" в базе данных</p>
+            <p class="article-meta"> Доступна работа с таблицей "опубликованные произведения" в базе данных</p>
 
             <form  class="login100-form validate-form" [formGroup]="tableForm" (ngSubmit)="getData()">
               <div class="wrap-input100 validate-input m-b-26" >
@@ -124,22 +124,23 @@
                 <span class="focus-input100"></span>
               </div>
 
+
               <table class="" *ngIf="selected ==='search'">
                 <h5>Добавьте параметры для поиска или оставьте поля пустыми: </h5>
                 <tr >
                   <th>
-                    <p  class="input100" > name </p>
+                    <p  class="input100" > work name </p>
                   </th>
                   <th>
-                    <input class="input100 form-control" type="text" name="library_name" placeholder="Enter name"  id="library_name" formControlName="library_name" >
+                    <input class="input100 form-control" type="text" name="work_name" placeholder="Enter work name"  id="work_name" formControlName="work_name" >
                   </th>
                 </tr>
                 <tr >
                   <th>
-                    <p  class="input100" > address </p>
+                    <p  class="input100" > book name </p>
                   </th>
                   <th>
-                    <input class="input100 form-control" type="text" name="library_address" placeholder="Enter address"  id="library_address"  formControlName="library_address" >
+                    <input class="input100 form-control" type="text" name="book_name" placeholder="Enter book name"  id="book_name" formControlName="book_name" >
                   </th>
                 </tr>
               </table>
@@ -148,18 +149,19 @@
                 <h5>Необходимо заполнить следующие поля: </h5>
                 <tr >
                   <th>
-                    <p  class="input100" > name </p>
+                    <p  class="input100" > work id </p>
                   </th>
                   <th>
-                    <input class="input100 form-control" type="text" name="library_name" placeholder="Enter name"  id="library_name" formControlName="library_name" >
+                    <input class="input100 form-control" type="text" name="work_id" placeholder="Enter work id"  id="work_id"  formControlName="work_id" >
                   </th>
                 </tr>
+
                 <tr >
                   <th>
-                    <p  class="input100" > address </p>
+                    <p  class="input100" > book id </p>
                   </th>
                   <th>
-                    <input class="input100 form-control" type="text" name="library_address" placeholder="Enter username"  id="library_address"  formControlName="library_address" >
+                    <input class="input100 form-control" type="text" name="book_id" placeholder="Enter book id"  id="book_id"  formControlName="book_id" >
                   </th>
                 </tr>
               </table>
@@ -173,7 +175,7 @@
               </div>
 
 
-              <div *ngIf="libraries!=null"
+              <div *ngIf="publishedWorks!=null"
                    class="container-login100" >
                 <span class="focus-input100"> </span>
                 <span class="focus-input100"> </span>
@@ -181,21 +183,54 @@
                 <h5> Результаты выполнения операции: </h5>
               </div>
 
-              <table mat-table class="mat-elevation-z8" style="width: 100%" *ngIf="libraries!=null" [dataSource]="libraries">
+
+           <table mat-table class="mat-elevation-z8" style="width: 100%" *ngIf="publishedWorks!=null" [dataSource]="publishedWorks">
                 <ng-container matColumnDef="id">
                   <th mat-header-cell *matHeaderCellDef > id </th>
                   <td mat-cell *matCellDef="let element"> {{element.id}} </td>
                 </ng-container>
-                <ng-container matColumnDef="name">
-                  <th mat-header-cell *matHeaderCellDef > Название </th>
-                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                <ng-container matColumnDef="work_name">
+                  <th mat-header-cell *matHeaderCellDef > Название произведения </th>
+                  <td mat-cell *matCellDef="let element"> {{element.work['name']}} </td>
                 </ng-container>
-                <ng-container matColumnDef="address">
-                  <th mat-header-cell *matHeaderCellDef > Адрес </th>
-                  <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+                <ng-container matColumnDef="work_type">
+                  <th mat-header-cell *matHeaderCellDef > Тип произведения </th>
+                  <td mat-cell *matCellDef="let element"> {{element.work.type['name']}} </td>
                 </ng-container>
-                <tr mat-header-row *matHeaderRowDef="libraryColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: libraryColumns;"></tr>
+                <ng-container matColumnDef="work_genre">
+                  <th mat-header-cell *matHeaderCellDef > Жанр произведения </th>
+                  <td mat-cell *matCellDef="let element"> {{element.work.genre['name']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="book_name">
+                  <th mat-header-cell *matHeaderCellDef > Название книги </th>
+                  <td mat-cell *matCellDef="let element"> {{element.book['name']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="publisher_name">
+                  <th mat-header-cell *matHeaderCellDef >  Название издательства </th>
+                  <td mat-cell *matCellDef="let element"> {{element.book.publisher['name']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="publisher_address">
+                  <th mat-header-cell *matHeaderCellDef >  Адрес издательства </th>
+                  <td mat-cell *matCellDef="let element"> {{element.book.publisher['address']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="publisher_phone">
+                  <th mat-header-cell *matHeaderCellDef >  Телефон издательства  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.book.publisher['phone']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="publisher_mail">
+                  <th mat-header-cell *matHeaderCellDef >  Почта издательства </th>
+                  <td mat-cell *matCellDef="let element"> {{element.book.publisher['mail']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="publish_year">
+                  <th mat-header-cell *matHeaderCellDef >  Год публикации   </th>
+                  <td mat-cell *matCellDef="let element"> {{element.book['publishYear']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="isbn">
+                  <th mat-header-cell *matHeaderCellDef >  isbn  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.book['isbn']}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="publishedWorksColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: publishedWorksColumns;"></tr>
               </table>
 
             </form>

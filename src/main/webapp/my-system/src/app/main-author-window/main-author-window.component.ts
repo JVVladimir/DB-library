@@ -138,10 +138,18 @@ export class MainAuthorWindowComponent implements OnInit {
   }
 
   goAuthorsOfBooks() {
-
+    this.router.navigateByUrl('/mainAuthorsOfBooksLibrary');
   }
 
   goAuthorsOfWorks() {
+    this.router.navigateByUrl('/mainAuthorsOfWorksLibrary');
+  }
 
+  goMainBooksInLib() {
+    this.router.navigateByUrl('/mainBooksInLibLibrary');
+  }
+
+  goPublishedWorks() {
+    this.router.navigateByUrl('/mainPublishedWorksLibrary');
   }
 }
