@@ -53,9 +53,9 @@ export class WindowHomeComponentComponent implements OnInit {
           } else if (this.loginForm.value.username == 'librarian') {
             this.router.navigateByUrl('/library');
           } else if (this.loginForm.value.username == 'director') {
-
+            this.router.navigateByUrl('/director');
           } else if (this.loginForm.value.username == 'transporter') {
-
+            this.router.navigateByUrl('/transporter');
           }
         } else {
           alert('Неверный логин или пароль!');

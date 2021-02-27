@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Main page</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+
+<div id="sidebar">
+
+  <div class="navbar-expand-md navbar-dark">
+
+    <header class="d-none d-md-block">
+      <h1><span>LIBRARY</span></h1>
+    </header>
+
+
+    <div class="mobile-header-controls">
+      <a class="navbar-brand d-md-none d-lg-none d-xl-none" href="#"><span>my</span>website</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#SidebarContent" aria-controls="SidebarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+
+    <div id="SidebarContent" class="collapse flex-column navbar-collapse">
+
+
+      <nav class="navbar navbar-dark">
+        <div id="mainNavbar">
+          <ul class="flex-column mr-auto">
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goLibraries()"> Библиотеки </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goBooks()"> Книги </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goWorks()"> Произведения </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goAuthors()"> Авторы </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goPublishers()"> Издательства </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goTypes()"> Типы </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goGenres()"> Жанры </a>
+            </li>
+
+            <li class="nav-item active">
+              <a class="nav-link" (click)="goReaders()"> Читатели <span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goOrders()"> Заказы </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goAccounting()"> Учет выдачи книг </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goMainBooksInLib()"> Книги в библиотеках </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goAuthorsOfBooks()"> Авторы книг </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goAuthorsOfWorks()"> Авторы произведений </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" (click)="goPublishedWorks()"> Опубликованные произведения </a>
+            </li>
+
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+<div id="content">
+  <div id="content-wrapper">
+
+    <!-- Main content area -->
+    <main class="container-fluid">
+      <div class="row">
+
+        <div class="col-md-8">
+          <article>
+            <h2 class="article-title"> Читатели </h2>
+
+            <p class="article-meta"> Доступна работа с таблицей "читатели" в базе данных</p>
+
+            <form  class="login100-form validate-form" [formGroup]="tableForm" (ngSubmit)="getData()">
+              <div class="wrap-input100 validate-input m-b-26" >
+                <h3 class="label-input100" >Операция</h3> <div></div>
+                <mat-form-field >
+                  <mat-select [(value)]="selected" (selectionChange)="clear()" id="table" formControlName="table" [ngClass]="{ 'is-invalid': submitted && logn.table.errors }" >
+                    <mat-option value="get">Получить все данные</mat-option>
+                    <mat-option value="search">Поиск по полям</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <span class="focus-input100"></span>
+              </div>
+
+              <table class="" *ngIf="selected ==='search'">
+                <h5>Добавьте параметры для поиска или оставьте поля пустыми: </h5>
+                <tr >
+                  <th>
+                    <p  class="input100" > name </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="reader_name" placeholder="Enter name"  id="reader_name" formControlName="reader_name" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > pasp </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="reader_pasp" placeholder="Enter pasp"  id="reader_pasp" formControlName="reader_pasp" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > phone </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="reader_phone" placeholder="Enter phone"  id="reader_phone" formControlName="reader_phone" >
+                  </th>
+                </tr>
+              </table>
+
+
+              <div class="container-login100-form-btn" >
+                <button class="btn btn-primary" style="background-color: #2880b8; color: white; border-color: #ed8d1c; margin-top: 10px" [disabled]="loading" >
+                  Выполнить
+                </button>
+              </div>
+
+
+              <div *ngIf="readers!=null"
+                   class="container-login100" >
+                <span class="focus-input100"> </span>
+                <span class="focus-input100"> </span>
+                <h5> </h5>
+                <h5> Результаты выполнения операции: </h5>
+              </div>
+
+
+              <table mat-table class="mat-elevation-z8" style="width: 100%" *ngIf="readers!=null" [dataSource]="readers">
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef > id </th>
+                  <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef > Имя </th>
+                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+                <ng-container matColumnDef="pasp">
+                  <th mat-header-cell *matHeaderCellDef > Паспорт </th>
+                  <td mat-cell *matCellDef="let element"> {{element.pasp}} </td>
+                </ng-container>
+                <ng-container matColumnDef="address">
+                  <th mat-header-cell *matHeaderCellDef > Адрес </th>
+                  <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+                </ng-container>
+                <ng-container matColumnDef="phone">
+                  <th mat-header-cell *matHeaderCellDef > Телефон </th>
+                  <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+                </ng-container>
+                <ng-container matColumnDef="mail">
+                  <th mat-header-cell *matHeaderCellDef > Почта </th>
+                  <td mat-cell *matCellDef="let element"> {{element.mail}} </td>
+                </ng-container>
+                <ng-container matColumnDef="library_name">
+                  <th mat-header-cell *matHeaderCellDef > Название библиотеки </th>
+                  <td mat-cell *matCellDef="let element"> {{element.library['name']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="library_address">
+                  <th mat-header-cell *matHeaderCellDef > Адресс библиотеки </th>
+                  <td mat-cell *matCellDef="let element"> {{element.library['address']}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="readerColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: readerColumns;"></tr>
+              </table>
+
+            </form>
+          </article>
+        </div>
+      </div>
+    </main>
+
+
+    <!-- Footer -->
+    <div class="container-fluid footer-container">
+      <footer class="footer">
+        <div class="footer-lists">
+          <div class="row">
+            <div class="col-sm">
+            </div>
+          </div>
+        </div>
+
+      </footer>
+    </div>
+  </div>
+</div>
+
+<!-- Bootcamp JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>

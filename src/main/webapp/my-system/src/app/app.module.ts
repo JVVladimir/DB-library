@@ -42,11 +42,28 @@ import {LibraryOrdersWindowComponent} from "./library/library-orders-window/libr
 import {LibraryPublishedWorksWindowComponent} from "./library/library-published-works-window/library-published-works-window.component";
 import {LibraryPublisherWindowComponent} from "./library/library-publisher-window/library-publisher-window.component";
 import {LibraryService} from "./services/LibraryService";
+import {DirectorWindowComponent} from "./director/main-window/director-window.component";
+import {DirectorWorkWindowComponent} from "./director/director-work-window/director-work-window.component";
+import {DirectorTypeWindowComponent} from "./director/director-type-window/director-type-window.component";
+import {DirectorReaderWindowComponent} from "./director/director-reader-window/director-reader-window.component";
+import {DirectorPublisherWindowComponent} from "./director/director-publisher-window/director-publisher-window.component";
+import {DirectorPublishedWorksWindowComponent} from "./director/director-published-works-window/director-published-works-window.component";
+import {DirectorOrdersWindowComponent} from "./director/director-orders-window/director-orders-window.component";
+import {DirectorGenreWindowComponent} from "./director/director-genre-window/director-genre-window.component";
+import {DirectorBooksInLibWindowComponent} from "./director/director-books-in-lib-window/director-books-in-lib-window.component";
+import {DirectorBookWindowComponent} from "./director/director-book-window/director-book-window.component";
+import {DirectorAuthorsOfWorksWindowComponent} from "./director/director-authors-of-works-window/director-authors-of-works-window.component";
+import {DirectorAuthorsOfBooksWindowComponent} from "./director/director-authors-of-books-window/director-authors-of-books-window.component";
+import {DirectorAuthorWindowComponent} from "./director/director-author-window/director-author-window.component";
+import {DirectorAccountingWindowComponent} from "./director/director-accounting-window/director-accounting-window.component";
+import {TransporterOrdersWindowComponent} from "./transporter/transporter-orders-window/transporter-orders-window.component";
+
 
 
 const appRoutes: Routes = [
   { path: '', component:  WindowHomeComponentComponent },
   { path: 'library', component:  LibraryWindowComponent },
+  { path: 'director', component: DirectorWindowComponent},
   { path: 'mainLibrary', component: MainWindowComponent },
   { path: 'libraryWork', component: LibraryWorkWindowComponent },
   { path: 'libraryType', component:  LibraryTypeWindowComponent},
@@ -73,7 +90,21 @@ const appRoutes: Routes = [
   { path: 'libraryAccounting', component:LibraryAccountingWindowComponent},
   { path: 'mainAuthorsOfBooksLibrary', component: MainAuthorsOfBooksWindowComponent},
   { path: 'mainAuthorsOfWorksLibrary', component: MainAuthorsOfWorksWindowComponent},
-  { path: 'mainPublishedWorksLibrary', component: MainPublishedWorksWindowComponent}
+  { path: 'mainPublishedWorksLibrary', component: MainPublishedWorksWindowComponent},
+  { path: 'directorWork', component: DirectorWorkWindowComponent},
+  { path: 'directorType', component: DirectorTypeWindowComponent},
+  { path: 'directorReader', component: DirectorReaderWindowComponent},
+  { path: 'directorPublisher', component: DirectorPublisherWindowComponent},
+  { path: 'directorPublishedWorks', component: DirectorPublishedWorksWindowComponent},
+  { path: 'directorOrders', component: DirectorOrdersWindowComponent},
+  { path: 'directorGenre' , component: DirectorGenreWindowComponent},
+  { path: 'directorBooksInLib', component: DirectorBooksInLibWindowComponent},
+  { path: 'directorBook', component: DirectorBookWindowComponent},
+  { path: 'directorAuthorsOfWorks', component: DirectorAuthorsOfWorksWindowComponent},
+  { path: 'directorAuthorsOfBooks', component: DirectorAuthorsOfBooksWindowComponent},
+  { path: 'directorAuthor', component: DirectorAuthorWindowComponent},
+  { path: 'directorAccounting', component: DirectorAccountingWindowComponent},
+  { path: 'transporter', component: TransporterOrdersWindowComponent }
 ];
 
 @NgModule({
@@ -107,7 +138,22 @@ const appRoutes: Routes = [
     LibraryGenreWindowComponent,
     LibraryOrdersWindowComponent,
     LibraryPublishedWorksWindowComponent,
-    LibraryPublisherWindowComponent
+    LibraryPublisherWindowComponent,
+    DirectorWindowComponent,
+    DirectorWorkWindowComponent,
+    DirectorTypeWindowComponent,
+    DirectorReaderWindowComponent,
+    DirectorPublisherWindowComponent,
+    DirectorPublishedWorksWindowComponent,
+    DirectorOrdersWindowComponent,
+    DirectorGenreWindowComponent,
+    DirectorBooksInLibWindowComponent,
+    DirectorBookWindowComponent,
+    DirectorAuthorsOfWorksWindowComponent,
+    DirectorAuthorsOfBooksWindowComponent,
+    DirectorAuthorWindowComponent,
+    DirectorAccountingWindowComponent,
+    TransporterOrdersWindowComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
