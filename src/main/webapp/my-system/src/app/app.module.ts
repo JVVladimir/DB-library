@@ -27,11 +27,32 @@ import {MainBooksInLibWindowComponent} from "./main-books-in-lib-window/main-boo
 import {MainAuthorsOfBooksWindowComponent} from "./main-authors-of-books-window/main-authors-of-books-window.component";
 import {MainAuthorsOfWorksWindowComponent} from "./main-authors-of-works-window/main-authors-of-works-window.component";
 import {MainPublishedWorksWindowComponent} from "./main-published-works-window/main-published-works-window.component";
+import {LibraryWindowComponent} from "./library/main-window/library-window.component";
+import {LibraryWorkWindowComponent} from "./library/library-work-window/library-work-window.component";
+import {LibraryTypeWindowComponent} from "./library/library-type-window/library-type-window.component";
+import {LibraryReaderWindowComponent} from "./library/library-reader-window/library-reader-window.component";
+import {LibraryAccountingWindowComponent} from "./library/library-accounting-window/library-accounting-window.component";
+import {LibraryAuthorWindowComponent} from "./library/library-author-window/library-author-window.component";
+import {LibraryAuthorsOfBooksWindowComponent} from "./library/library-authors-of-books-window/library-authors-of-books-window.component";
+import {LibraryAuthorsOfWorksWindowComponent} from "./library/library-authors-of-works-window/library-authors-of-works-window.component";
+import {LibraryBookWindowComponent} from "./library/library-book-window/library-book-window.component";
+import {LibraryBooksInLibWindowComponent} from "./library/library-books-in-lib-window/library-books-in-lib-window.component";
+import {LibraryGenreWindowComponent} from "./library/library-genre-window/library-genre-window.component";
+import {LibraryOrdersWindowComponent} from "./library/library-orders-window/library-orders-window.component";
+import {LibraryPublishedWorksWindowComponent} from "./library/library-published-works-window/library-published-works-window.component";
+import {LibraryPublisherWindowComponent} from "./library/library-publisher-window/library-publisher-window.component";
+import {LibraryService} from "./services/LibraryService";
 
 
 const appRoutes: Routes = [
   { path: '', component:  WindowHomeComponentComponent },
+  { path: 'library', component:  LibraryWindowComponent },
   { path: 'mainLibrary', component: MainWindowComponent },
+  { path: 'libraryWork', component: LibraryWorkWindowComponent },
+  { path: 'libraryType', component:  LibraryTypeWindowComponent},
+  { path: 'libraryReader', component:  LibraryReaderWindowComponent },
+  { path: 'libraryAuthor', component: LibraryAuthorWindowComponent},
+  { path: 'libraryAuthorsOfBooks', component: LibraryAuthorsOfBooksWindowComponent},
   { path: 'mainBookLibrary', component: MainBookWindowComponent },
   { path: 'mainWorkLibrary', component: MainWorkWindowComponent},
   { path: 'mainAuthorLibrary', component: MainAuthorWindowComponent},
@@ -42,6 +63,14 @@ const appRoutes: Routes = [
   { path: 'mainOrdersLibrary', component: MainOrdersWindowComponent},
   { path: 'mainAccountingLibrary', component: MainAccountingWindowComponent},
   { path: 'mainBooksInLibLibrary', component: MainBooksInLibWindowComponent},
+  { path: 'libraryAuthorsOfWorks', component: LibraryAuthorsOfWorksWindowComponent},
+  { path: 'libraryBook', component: LibraryBookWindowComponent},
+  {  path: 'libraryBooksInLib', component:LibraryBooksInLibWindowComponent},
+  { path: 'libraryGenre', component:LibraryGenreWindowComponent},
+  { path: 'libraryOrders', component:LibraryOrdersWindowComponent},
+  { path: 'libraryPublishedWorks', component:LibraryPublishedWorksWindowComponent},
+  { path: 'libraryPublisher', component: LibraryPublisherWindowComponent},
+  { path: 'libraryAccounting', component:LibraryAccountingWindowComponent},
   { path: 'mainAuthorsOfBooksLibrary', component: MainAuthorsOfBooksWindowComponent},
   { path: 'mainAuthorsOfWorksLibrary', component: MainAuthorsOfWorksWindowComponent},
   { path: 'mainPublishedWorksLibrary', component: MainPublishedWorksWindowComponent}
@@ -64,7 +93,21 @@ const appRoutes: Routes = [
     MainBooksInLibWindowComponent,
     MainAuthorsOfBooksWindowComponent,
     MainAuthorsOfWorksWindowComponent,
-    MainPublishedWorksWindowComponent
+    MainPublishedWorksWindowComponent,
+    LibraryWindowComponent,
+    LibraryWorkWindowComponent,
+    LibraryTypeWindowComponent,
+    LibraryReaderWindowComponent,
+    LibraryAccountingWindowComponent,
+    LibraryAuthorWindowComponent,
+    LibraryAuthorsOfBooksWindowComponent,
+    LibraryAuthorsOfWorksWindowComponent,
+    LibraryBookWindowComponent,
+    LibraryBooksInLibWindowComponent,
+    LibraryGenreWindowComponent,
+    LibraryOrdersWindowComponent,
+    LibraryPublishedWorksWindowComponent,
+    LibraryPublisherWindowComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -78,7 +121,7 @@ const appRoutes: Routes = [
     MatNativeDateModule,
   ],
   entryComponents: [],
-  providers: [LoginAndRegistrate, MainLibraryService],
+  providers: [LoginAndRegistrate, MainLibraryService, LibraryService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

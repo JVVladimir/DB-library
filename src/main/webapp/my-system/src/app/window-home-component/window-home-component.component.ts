@@ -51,7 +51,7 @@ export class WindowHomeComponentComponent implements OnInit {
           if (this.loginForm.value.username == 'mainLibrarian') {
             this.router.navigateByUrl('/mainLibrary');
           } else if (this.loginForm.value.username == 'librarian') {
-
+            this.router.navigateByUrl('/library');
           } else if (this.loginForm.value.username == 'director') {
 
           } else if (this.loginForm.value.username == 'transporter') {

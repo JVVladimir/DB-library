@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Main page</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+
+<div id="sidebar">
+
+  <div class="navbar-expand-md navbar-dark">
+
+    <header class="d-none d-md-block">
+      <h1><span>LIBRARY</span></h1>
+    </header>
+
+
+    <div class="mobile-header-controls">
+      <a class="navbar-brand d-md-none d-lg-none d-xl-none" href="#"><span>my</span>website</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#SidebarContent" aria-controls="SidebarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+
+    <div id="SidebarContent" class="collapse flex-column navbar-collapse">
+
+
+      <nav class="navbar navbar-dark">
+        <div id="mainNavbar">
+          <ul class="flex-column mr-auto">
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goLibraries()"> Библиотеки </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goBooks()"> Книги </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goWorks()"> Произведения </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goAuthors()"> Авторы </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goPublishers()"> Издательства </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goTypes()"> Типы </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goGenres()"> Жанры </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goReaders()"> Читатели </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goOrders()"> Заказы </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goAccounting()"> Учет выдачи книг </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goMainBooksInLib()"> Книги в библиотеках </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goAuthorsOfBooks()"> Авторы книг </a>
+            </li>
+
+            <li class="nav-item active">
+              <a class="nav-link" (click)="goAuthorsOfWorks()"> Авторы произведений <span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" (click)="goPublishedWorks()"> Опубликованные произведения </a>
+            </li>
+
+
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+<div id="content">
+  <div id="content-wrapper">
+
+    <!-- Main content area -->
+    <main class="container-fluid">
+      <div class="row">
+
+        <div class="col-md-8">
+          <article>
+            <h2 class="article-title"> Авторы произведений </h2>
+
+            <p class="article-meta"> Доступна работа с таблицей "авторы произведений" в базе данных</p>
+
+            <form  class="login100-form validate-form" [formGroup]="tableForm" (ngSubmit)="getData()">
+              <div class="wrap-input100 validate-input m-b-26" >
+                <h3 class="label-input100" >Операция</h3> <div></div>
+                <mat-form-field >
+                  <mat-select [(value)]="selected" (selectionChange)="clear()" id="table" formControlName="table" [ngClass]="{ 'is-invalid': submitted && logn.table.errors }" >
+                    <mat-option value="get">Получить все данные</mat-option>
+                    <mat-option value="search">Поиск по полям</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <span class="focus-input100"></span>
+              </div>
+
+              <table class="" *ngIf="selected ==='search'">
+                <h5>Добавьте параметры для поиска или оставьте поля пустыми: </h5>
+                <tr >
+                  <th>
+                    <p  class="input100" > author name </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="author_name" placeholder="Enter author name"  id="author_name" formControlName="author_name" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > work name </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="work_name" placeholder="Enter work name"  id="work_name"  formControlName="work_name" >
+                  </th>
+                </tr>
+              </table>
+
+
+              <div class="container-login100-form-btn" >
+                <button class="btn btn-primary" style="background-color: #2880b8; color: white; border-color: #ed8d1c; margin-top: 10px" [disabled]="loading" >
+                  Выполнить
+                </button>
+              </div>
+
+
+              <div *ngIf="authorsOfWorks!=null"
+                   class="container-login100" >
+                <span class="focus-input100"> </span>
+                <span class="focus-input100"> </span>
+                <h5> </h5>
+                <h5> Результаты выполнения операции: </h5>
+              </div>
+
+              <table mat-table class="mat-elevation-z8" style="width: 100%" *ngIf="authorsOfWorks!=null" [dataSource]="authorsOfWorks">
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef > id </th>
+                  <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+                <ng-container matColumnDef="author_name">
+                  <th mat-header-cell *matHeaderCellDef > Имя авторы </th>
+                  <td mat-cell *matCellDef="let element"> {{element.author['name']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="author_born">
+                  <th mat-header-cell *matHeaderCellDef > Дата рождения автора </th>
+                  <td mat-cell *matCellDef="let element"> {{element.author['born']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="author_died">
+                  <th mat-header-cell *matHeaderCellDef > Дата смерти автора </th>
+                  <td mat-cell *matCellDef="let element"> {{element.author['died']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="work_name">
+                  <th mat-header-cell *matHeaderCellDef > Название произведения </th>
+                  <td mat-cell *matCellDef="let element"> {{element.work['name']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="type">
+                  <th mat-header-cell *matHeaderCellDef >  Тип произведения </th>
+                  <td mat-cell *matCellDef="let element"> {{element.work.type['name']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="genre">
+                  <th mat-header-cell *matHeaderCellDef >  Жанр произведения  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.work.genre['name']}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="authorsOfWorksColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: authorsOfWorksColumns;"></tr>
+              </table>
+
+            </form>
+          </article>
+        </div>
+      </div>
+    </main>
+
+
+    <!-- Footer -->
+    <div class="container-fluid footer-container">
+      <footer class="footer">
+        <div class="footer-lists">
+          <div class="row">
+            <div class="col-sm">
+            </div>
+          </div>
+        </div>
+
+      </footer>
+    </div>
+  </div>
+</div>
+
+<!-- Bootcamp JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>
