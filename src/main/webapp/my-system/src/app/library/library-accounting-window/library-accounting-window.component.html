@@ -116,6 +116,7 @@
                 <mat-form-field >
                   <mat-select [(value)]="selected" (selectionChange)="clear()" id="table" formControlName="table" [ngClass]="{ 'is-invalid': submitted && logn.table.errors }" >
                     <mat-option value="get">Получить все данные</mat-option>
+                    <mat-option value="add">Вставить запись</mat-option>
                   </mat-select>
                 </mat-form-field>
                 <span class="focus-input100"></span>
@@ -137,36 +138,68 @@
                 <h5> Результаты выполнения операции: </h5>
               </div>
 
-
               <table mat-table class="mat-elevation-z8" style="width: 100%" *ngIf="accounts!=null" [dataSource]="accounts">
                 <ng-container matColumnDef="id">
                   <th mat-header-cell *matHeaderCellDef > id </th>
-                  <td mat-cell *matCellDef="let element"> {{element.id['id']}} </td>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.accountingId['id']}} </td>
                 </ng-container>
-                <ng-container matColumnDef="library">
-                  <th mat-header-cell *matHeaderCellDef > id book in lib </th>
-                  <td mat-cell *matCellDef="let element"> {{element.library}} </td>
+                <ng-container matColumnDef="library_name">
+                  <th mat-header-cell *matHeaderCellDef > Название библиотеки </th>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.book.booksInLibraryId.library['name']}} </td>
                 </ng-container>
-                <ng-container matColumnDef="reader">
-                  <th mat-header-cell *matHeaderCellDef > id reader </th>
-                  <td mat-cell *matCellDef="let element"> {{element.id['reader']}} </td>
+                <ng-container matColumnDef="library_address">
+                  <th mat-header-cell *matHeaderCellDef > Адрес библиотеки </th>
+                  <td mat-cell *matCellDef="let element"> {{element.book.booksInLibraryId.library['address']}} </td>
                 </ng-container>
+                <ng-container matColumnDef="book_name">
+                  <th mat-header-cell *matHeaderCellDef > Имя книги </th>
+                  <td mat-cell *matCellDef="let element"> {{element.book.book['name']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="publisher_name">
+                  <th mat-header-cell *matHeaderCellDef > Название издательства </th>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.book.book.publisher['name']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="isbn">
+                  <th mat-header-cell *matHeaderCellDef > isbn </th>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.book.book['isbn']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="reader_name">
+                  <th mat-header-cell *matHeaderCellDef > Имя читателя </th>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.accountingId.reader['name']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="reader_pasp">
+                  <th mat-header-cell *matHeaderCellDef > Паспорт читателя </th>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.accountingId.reader['pasp']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="reader_mail">
+                  <th mat-header-cell *matHeaderCellDef > Почта читателя </th>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.accountingId.reader['mail']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="reader_library_name">
+                  <th mat-header-cell *matHeaderCellDef > Название библиотеки читателя </th>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.accountingId.reader.library['name']}} </td>
+                </ng-container>
+
                 <ng-container matColumnDef="dateExt">
                   <th mat-header-cell *matHeaderCellDef > Дата выдачи </th>
-                  <td mat-cell *matCellDef="let element"> {{element.dateExt }} </td>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.dateExt }} </td>
                 </ng-container>
+
                 <ng-container matColumnDef="dateRet">
-                  <th mat-header-cell *matHeaderCellDef > Дата возврата </th>
-                  <td mat-cell *matCellDef="let element"> {{element.dateRet}} </td>
+                  <th mat-header-cell *matHeaderCellDef > Дата возврата</th>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element?.dateRet || "" }} </td>
                 </ng-container>
+
                 <ng-container matColumnDef="status">
                   <th mat-header-cell *matHeaderCellDef > Статус </th>
-                  <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element['status']}} </td>
                 </ng-container>
+
                 <ng-container matColumnDef="fine">
                   <th mat-header-cell *matHeaderCellDef > Штраф </th>
-                  <td mat-cell *matCellDef="let element"> {{element.fine}} </td>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element?.fine || ""  }} </td>
                 </ng-container>
+
                 <tr mat-header-row *matHeaderRowDef="accountColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: accountColumns;"></tr>
               </table>

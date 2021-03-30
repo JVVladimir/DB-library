@@ -51,7 +51,7 @@ export class TransporterOrdersWindowComponent implements OnInit {
   }
 
   private getOrdersFromDB() {
-    this.mainLibraryService.getOrders().subscribe((answer: Orders[]) => {
+    this.mainLibraryService.getConsolidOrders().subscribe((answer: Orders[]) => {
       if (answer != null) {
         this.orders = answer;
       } else {

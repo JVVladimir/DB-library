@@ -14,6 +14,7 @@ import {PublishedWorks} from "../data/PublishedWorks";
 import {AuthorsOfWorks} from "../data/AuthorsOfWorks";
 import {AuthorsOfBooks} from "../data/AuthorsOfBooks";
 import {BooksInLibrary} from "../data/BooksInLibrary";
+import {Order} from "../data/Order";
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -63,13 +64,23 @@ export class MainLibraryService {
     return this.httpClient.get(this.customersUrl + "readers", httpOptions);
   }
 
-  getOrders():  Observable<any>  {
+  getConsolidOrders():  Observable<any>  {
     return this.httpClient.get(this.consolidationUrl + "orders", httpOptions);
+  }
+
+  getOrders():  Observable<any>  {
+    return this.httpClient.get(this.customersUrl + "orders", httpOptions);
   }
 
   getBooksInLib():  Observable<any>  {
     return this.httpClient.get(this.customersUrl + "booksInLibrary", httpOptions);
   }
+
+
+  getConsolidBooksInLib():  Observable<any>  {
+    return this.httpClient.get(this.consolidationUrl + "booksInlibs", httpOptions);
+  }
+
 
   getAuthorsOfBooks():  Observable<any>  {
     return this.httpClient.get(this.customersUrl + "authorBooks", httpOptions);
@@ -134,6 +145,10 @@ export class MainLibraryService {
 
   addPublisher(publisher: Publisher):  Observable<any>  {
     return this.httpClient.post(this.customersUrl + "publishers", publisher, httpOptions);
+  }
+
+  addOrders(order: Order): Observable<any> {
+    return this.httpClient.post(this.customersUrl + "orders", order, httpOptions);
   }
 
   searchAuthorOfWork(authorOfWork: AuthorsOfWorks):  Observable<any>  {

@@ -116,10 +116,31 @@
                 <mat-form-field >
                   <mat-select [(value)]="selected" (selectionChange)="clear()" id="table" formControlName="table" [ngClass]="{ 'is-invalid': submitted && logn.table.errors }" >
                     <mat-option value="get">Получить все данные</mat-option>
+                    <mat-option value="add">Вставить запись</mat-option>
                   </mat-select>
                 </mat-form-field>
                 <span class="focus-input100"></span>
               </div>
+
+
+              <table class="" *ngIf="selected ==='add'">
+              <h5>Необходимо заполнить следующие поля: </h5>
+              <tr >
+                <th>
+                  <p  class="input100" > reader_id </p>
+                </th>
+                <th>
+                  <input class="input100 form-control" type="text" name="reader_id" placeholder="Enter reader id"  id="reader_id" formControlName="reader_id" >
+                </th>
+              </tr>
+              <tr >
+                <th>
+                  <p  class="input100" > book_id </p>
+                </th>
+                <th>
+                  <input class="input100 form-control" type="text" name="book_id" placeholder="Enter book id"  id="book_id" formControlName="book_id" >
+                </th>
+              </table>
 
 
               <div class="container-login100-form-btn" >
@@ -141,19 +162,31 @@
               <table mat-table class="mat-elevation-z8" style="width: 100%" *ngIf="orders!=null" [dataSource]="orders">
                 <ng-container matColumnDef="id">
                   <th mat-header-cell *matHeaderCellDef > id </th>
-                  <td mat-cell *matCellDef="let element"> {{element.id['id']}} </td>
+                  <td mat-cell *matCellDef="let element"> {{element.orderId['id']}} </td>
                 </ng-container>
-                <ng-container matColumnDef="reader">
-                  <th mat-header-cell *matHeaderCellDef > id читателя </th>
-                  <td mat-cell *matCellDef="let element"> {{element.reader}} </td>
+                <ng-container matColumnDef="reader_name">
+                  <th mat-header-cell *matHeaderCellDef > Имя читателя </th>
+                  <td mat-cell *matCellDef="let element"> {{element.reader['name']}} </td>
                 </ng-container>
-                <ng-container matColumnDef="library">
-                  <th mat-header-cell *matHeaderCellDef > id библиотеки </th>
-                  <td mat-cell *matCellDef="let element"> {{element.library}} </td>
+                <ng-container matColumnDef="reader_address">
+                  <th mat-header-cell *matHeaderCellDef > Адрес читателя </th>
+                  <td mat-cell *matCellDef="let element"> {{element.reader['address']}} </td>
                 </ng-container>
-                <ng-container matColumnDef="book">
-                  <th mat-header-cell *matHeaderCellDef > id книги </th>
-                  <td mat-cell *matCellDef="let element"> {{element.id['book']}} </td>
+                <ng-container matColumnDef="reader_phone">
+                  <th mat-header-cell *matHeaderCellDef > Телефон читателя </th>
+                  <td mat-cell *matCellDef="let element"> {{element.reader['phone']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="reader_mail">
+                  <th mat-header-cell *matHeaderCellDef > Почта читателя </th>
+                  <td mat-cell *matCellDef="let element"> {{element.reader['mail']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="reader_library_name">
+                  <th mat-header-cell *matHeaderCellDef > Название библиотеки читателя  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.reader.library['name']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="reader_library_address">
+                  <th mat-header-cell *matHeaderCellDef > Адрес библиотеки читателя </th>
+                  <td mat-cell *matCellDef="let element"> {{element.reader.library['address']}} </td>
                 </ng-container>
                 <ng-container matColumnDef="createDate">
                   <th mat-header-cell *matHeaderCellDef > Дата создания </th>
@@ -161,11 +194,27 @@
                 </ng-container>
                 <ng-container matColumnDef="execDate">
                   <th mat-header-cell *matHeaderCellDef > Дата исполнения </th>
-                  <td mat-cell *matCellDef="let element"> {{element.execDate}} </td>
+                  <td mat-cell *matCellDef="let element"> {{element?.execDate || "" }} </td>
+                </ng-container>
+                <ng-container matColumnDef="order_library_name">
+                  <th mat-header-cell *matHeaderCellDef > Название библиотеки отправления заказа </th>
+                  <td mat-cell *matCellDef="let element"> {{element.library?.name || "" }} </td>
+                </ng-container>
+                <ng-container matColumnDef="order_library_address">
+                  <th mat-header-cell *matHeaderCellDef > Адрес библиотеки отправления заказа </th>
+                  <td mat-cell *matCellDef="let element"> {{element.library?.address  || "" }} </td>
+                </ng-container>
+                <ng-container matColumnDef="book_name">
+                  <th mat-header-cell *matHeaderCellDef > Название книги </th>
+                  <td mat-cell *matCellDef="let element"> {{element.orderId.book['name']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="isbn">
+                  <th mat-header-cell *matHeaderCellDef > isbn </th>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.orderId.book['isbn']}} </td>
                 </ng-container>
                 <ng-container matColumnDef="status">
                   <th mat-header-cell *matHeaderCellDef > Статус </th>
-                  <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                  <td mat-cell *matCellDef="let element" align="center">  {{ element['status'] }} </td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="orderColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: orderColumns;"></tr>

@@ -10,6 +10,7 @@ import {Library} from "../../data/Library";
 import {BooksInLibrary} from "../../data/BooksInLibrary";
 import {LibraryService} from "../../services/LibraryService";
 import {MainLibraryService} from "../../services/ManLibraryService";
+import {CBooksInLibrary} from "../../data/CBooksInLibrary";
 
 @Component({
   selector: 'app-main-window',
@@ -22,8 +23,8 @@ export class DirectorBooksInLibWindowComponent implements OnInit {
   selected = '';
   user: User = null;
 
-  booksInLibrary: BooksInLibrary[] = null;
-  booksInLibraryColumns: string[] = ['id', 'library_name', 'library_address', 'book_name', 'publisher_name', 'publisher_address', 'publisher_phone', 'publisher_mail', 'publish_year', 'isbn'];
+  booksInLibrary: CBooksInLibrary[] = null;
+  booksInLibraryColumns: string[] = ['id', 'library_id', 'book_id'];
 
 
   constructor(public dialog: MatDialog, private formBuilder: FormBuilder, private service: LoginAndRegistrate, private mainLibraryService: MainLibraryService, private router: Router) {
@@ -37,11 +38,7 @@ export class DirectorBooksInLibWindowComponent implements OnInit {
     this.tableForm = this.formBuilder.group({
       table: ['', Validators.compose([
         Validators.required
-      ])],
-      book_name: [''],
-      library_name: [''],
-      book_id: [''],
-      library_id: ['']
+      ])]
     });
   }
 
@@ -52,21 +49,6 @@ export class DirectorBooksInLibWindowComponent implements OnInit {
     this.booksInLibrary = null;
     if (this.tableForm.invalid) {
       return;
-    } else if (this.selected === 'search') {
-      const booksInLib = new BooksInLibrary();
-      booksInLib.booksInLibraryId = new BooksInLibraryId();
-      booksInLib.booksInLibraryId.library = new Library();
-      booksInLib.booksInLibraryId.library.name = this.tableForm.value['library_name'];
-      booksInLib.book = new Book();
-      booksInLib.book.name = this.tableForm.value['book_name'];
-      this.clear();
-      this.mainLibraryService.searchBookInLib(booksInLib).subscribe((answer: BooksInLibrary[]) => {
-        if (answer != null) {
-          this.booksInLibrary = answer;
-        } else {
-          alert('Ошибка! Данные отсутствуют!')
-        }
-      });
     } else if (this.selected === 'get') {
       this.getBooksInLibraryFromDB();
     }
@@ -74,7 +56,7 @@ export class DirectorBooksInLibWindowComponent implements OnInit {
   }
 
   private getBooksInLibraryFromDB() {
-    this.mainLibraryService.getBooksInLib().subscribe((answer: BooksInLibrary[]) => {
+    this.mainLibraryService.getConsolidBooksInLib().subscribe((answer: CBooksInLibrary[]) => {
       if (answer != null) {
         this.booksInLibrary = answer;
       } else {

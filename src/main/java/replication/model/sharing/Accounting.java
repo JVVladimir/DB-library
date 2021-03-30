@@ -18,7 +18,7 @@ public class Accounting {
     @ManyToOne(targetEntity = BooksInLibrary.class)
     @JoinColumns({
             @JoinColumn(name = "ac_id_book_in_lib", referencedColumnName = "bl_id"),
-            @JoinColumn(referencedColumnName = "bl_id_library")
+            @JoinColumn(name = "ac_book_in_lib_id_lib", referencedColumnName = "bl_id_library")
     })
     private BooksInLibrary book;
 

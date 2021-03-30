@@ -53,25 +53,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         UserDetails user =
                 User.builder()
                         .username("mainLibrarian")
-                        .password(passwordEncoder().encode("password"))
+                        .password(passwordEncoder().encode("password123"))
                         .roles(Role.MAIN_LIBRARIAN.name())
                         .build();
         UserDetails user2 =
                 User.builder()
                         .username("librarian")
-                        .password(passwordEncoder().encode("password"))
+                        .password(passwordEncoder().encode("password123"))
                         .roles(Role.LIBRARIAN.name())
                         .build();
         UserDetails user3 =
                 User.builder()
                         .username("director")
-                        .password(passwordEncoder().encode("password"))
+                        .password(passwordEncoder().encode("password123"))
                         .roles(Role.DIRECTOR.name())
                         .build();
         UserDetails user4 =
                 User.builder()
                         .username("transporter")
-                        .password(passwordEncoder().encode("password"))
+                        .password(passwordEncoder().encode("password123"))
                         .roles(Role.TRANSPORTER.name())
                         .build();
 

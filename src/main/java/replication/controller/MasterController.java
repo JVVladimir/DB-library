@@ -35,6 +35,7 @@ public class MasterController {
     private final PublisherRepository publisherRepository;
     private final WorkRepository workRepository;
     private final PublishedWorkRepository publishedWorkRepository;
+    private final OrdersRepository ordersRepository;
 
     @Operation(summary = "Получить книги")
     @GetMapping("/books")
@@ -46,6 +47,12 @@ public class MasterController {
     @PostMapping("/books")
     Book addBook(@RequestBody Book book) {
         return bookRepository.save(book);
+    }
+
+    @Operation(summary = "Добавить заказ")
+    @PostMapping("/orders")
+    Orders addOrders(@RequestBody Orders orders) {
+        return ordersRepository.save(orders);
     }
 
     @Operation(summary = "Получить автора")
@@ -173,10 +180,16 @@ public class MasterController {
         return booksInLibraryRepository.save(booksInLibrary);
     }
 
-    @Operation(summary = "Получить данные по всем книгам в филиале")
+    @Operation(summary = "Получить данные по всем книгам")
     @GetMapping("/booksInLibrary")
     List<BooksInLibrary> findBooksInLibrary(@RequestParam(required = false) String bookName, @RequestParam(required = false) String libraryName) {
         return booksInLibraryRepository.findAll(Example.of(new BooksInLibrary(bookName, libraryName)));
+    }
+
+    @Operation(summary = "Получить данные по всем заказам")
+    @GetMapping("/orders")
+    List<Orders> findOrders() {
+        return ordersRepository.findAll();
     }
 
     @Operation(summary = "Количество экземпляров нужной книги в каждом филиале")

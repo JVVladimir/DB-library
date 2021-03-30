@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.*;
 import replication.model.sharing.*;
+import replication.repository.master.AccountingRepository;
 import replication.repository.slave.*;
 
 import java.util.List;
@@ -30,6 +31,9 @@ public class SlaveController {
     private final SGenreRepository genreRepository;
     private final SPublishedWorkRepository publishedWorkRepository;
     private final SBooksInLibraryRepository booksInLibraryRepository;
+    private final SOrdersRepository ordersRepository;
+    private final SAccountingRepository accountingRepository;
+    private final AccountingRepository acc;
 
     @Operation(summary = "Получить книги")
     @GetMapping("/books")
@@ -91,11 +95,38 @@ public class SlaveController {
         return readerRepository.save(reader);
     }
 
+
+    @Operation(summary = "Добавить выданную/озвращенную книгу")
+    @PostMapping("/accounts")
+    Accounting addAccounts(@RequestBody Accounting accounting) {
+        return accountingRepository.save(accounting);
+    }
+
+    @Operation(summary = "Добавить заказ")
+    @PostMapping("/orders")
+    Orders addOrders(@RequestBody Orders orders) {
+        return ordersRepository.save(orders);
+    }
+
     @Operation(summary = "Добавить новую книгу в библиотеку")
     @PostMapping("/booksInLibrary")
     BooksInLibrary addBooksInLibrary(@RequestBody BooksInLibrary booksInLibrary) {
         return booksInLibraryRepository.save(booksInLibrary);
     }
+
+    @Operation(summary = "Получить данные по всем заказам")
+    @GetMapping("/orders")
+    List<Orders> findOrders() {
+        return ordersRepository.findAll();
+    }
+
+
+    @Operation(summary = "Получить данные по всем выдачам книг")
+    @GetMapping("/accounts")
+    List<Accounting> findAccounts() {
+        return accountingRepository.findAll();
+    }
+
 
     @Operation(summary = "Получить данные по всем книгам в филиале")
     @GetMapping("/booksInLibrary")

@@ -161,43 +161,15 @@
               <table mat-table class="mat-elevation-z8" style="width: 100%" *ngIf="booksInLibrary!=null" [dataSource]="booksInLibrary">
                 <ng-container matColumnDef="id">
                   <th mat-header-cell *matHeaderCellDef > id </th>
-                  <td mat-cell *matCellDef="let element"> {{element.booksInLibraryId['id']}} </td>
+                  <td mat-cell *matCellDef="let element"> {{element.id['id']}} </td>
                 </ng-container>
-                <ng-container matColumnDef="library_name">
-                  <th mat-header-cell *matHeaderCellDef > Название библиотеки </th>
-                  <td mat-cell *matCellDef="let element"> {{element.booksInLibraryId.library['name']}} </td>
+                <ng-container matColumnDef="book_id">
+                  <th mat-header-cell *matHeaderCellDef > id книги </th>
+                  <td mat-cell *matCellDef="let element"> {{element.book}} </td>
                 </ng-container>
-                <ng-container matColumnDef="library_address">
-                  <th mat-header-cell *matHeaderCellDef > Адрес библиотеки </th>
-                  <td mat-cell *matCellDef="let element"> {{element.booksInLibraryId.library['address']}} </td>
-                </ng-container>
-                <ng-container matColumnDef="book_name">
-                  <th mat-header-cell *matHeaderCellDef > Имя книги </th>
-                  <td mat-cell *matCellDef="let element"> {{element.book['name']}} </td>
-                </ng-container>
-                <ng-container matColumnDef="publisher_name">
-                  <th mat-header-cell *matHeaderCellDef > Название издательства </th>
-                  <td mat-cell *matCellDef="let element"> {{element.book.publisher['name']}} </td>
-                </ng-container>
-                <ng-container matColumnDef="publisher_address">
-                  <th mat-header-cell *matHeaderCellDef > Адресс издательства </th>
-                  <td mat-cell *matCellDef="let element"> {{element.book.publisher['address']}} </td>
-                </ng-container>
-                <ng-container matColumnDef="publisher_phone">
-                  <th mat-header-cell *matHeaderCellDef > Телефон издательства </th>
-                  <td mat-cell *matCellDef="let element"> {{element.book.publisher['phone']}} </td>
-                </ng-container>
-                <ng-container matColumnDef="publisher_mail">
-                  <th mat-header-cell *matHeaderCellDef > Почта издательства </th>
-                  <td mat-cell *matCellDef="let element"> {{element.book.publisher['mail']}} </td>
-                </ng-container>
-                <ng-container matColumnDef="publish_year">
-                  <th mat-header-cell *matHeaderCellDef > Год публикации </th>
-                  <td mat-cell *matCellDef="let element"> {{element.book['publishYear']}} </td>
-                </ng-container>
-                <ng-container matColumnDef="isbn">
-                  <th mat-header-cell *matHeaderCellDef > isbn </th>
-                  <td mat-cell *matCellDef="let element"> {{element.book['isbn']}} </td>
+                <ng-container matColumnDef="library_id">
+                  <th mat-header-cell *matHeaderCellDef > id библиотеки </th>
+                  <td mat-cell *matCellDef="let element"> {{element.id['library']}} </td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="booksInLibraryColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: booksInLibraryColumns;"></tr>

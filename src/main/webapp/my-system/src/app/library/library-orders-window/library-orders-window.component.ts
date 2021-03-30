@@ -6,6 +6,10 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Orders} from "../../data/Orders";
 import {LibraryService} from "../../services/LibraryService";
+import {Order} from "../../data/Order";
+import {Reader} from "../../data/Reader";
+import {OrdId} from "../../data/OrdId";
+import {Book} from "../../data/Book";
 
 @Component({
   selector: 'app-main-window',
@@ -18,8 +22,10 @@ export class LibraryOrdersWindowComponent implements OnInit {
   selected = '';
   user: User = null;
 
-  orders: Orders[] = null;
-  orderColumns: string[] = ['id', 'reader', 'createDate', 'execDate', 'library', 'status', 'book'];
+  orders: Order[] = null;
+  orderColumns: string[] =  ['id', 'reader_name', 'reader_address','reader_phone', 'reader_mail', 'reader_library_name', 'reader_library_address', 'createDate', 'execDate',
+    'order_library_name', 'order_library_address', 'book_name', 'isbn', 'status'];
+
 
 
   constructor(public dialog: MatDialog, private formBuilder: FormBuilder, private service: LoginAndRegistrate, private mainLibraryService: LibraryService, private router: Router) {
@@ -34,6 +40,10 @@ export class LibraryOrdersWindowComponent implements OnInit {
       table: ['', Validators.compose([
         Validators.required
       ])],
+      reader_id: [''],
+      book_id: [''],
+      library_id: [''],
+      order_id: ['']
     });
   }
 
@@ -46,12 +56,40 @@ export class LibraryOrdersWindowComponent implements OnInit {
       return;
     }  else if (this.selected === 'get') {
       this.getOrdersFromDB();
+    } else if (this.selected === 'add') {
+      const order = new Order();
+      order.reader = new Reader()
+      order.reader.id = this.tableForm.value['reader_id'];
+      order.orderId = new OrdId();
+      order.orderId.book = new Book();
+      order.orderId.book.id = this.tableForm.value['book_id'];
+      order.createDate = this.dateAsYYYYMMDDHHNNSS(new Date());
+      order.status = 'accepted';
+      this.clear();
+      this.mainLibraryService.addOrders(order).subscribe((answer: Order[]) => {
+        this.getOrdersFromDB();
+      });
     }
     this.submitted = false;
   }
 
+
+
+  dateAsYYYYMMDDHHNNSS(date): string {
+    return date.getFullYear()
+      + '-' + this.leftpad(date.getMonth() + 1, 2)
+      + '-' + this.leftpad(date.getDate(), 2);
+  }
+
+  leftpad(val, resultLength = 2, leftpadChar = '0'): string {
+    return (String(leftpadChar).repeat(resultLength)
+      + String(val)).slice(String(val).length);
+  }
+
+
+
   private getOrdersFromDB() {
-    this.mainLibraryService.getOrders().subscribe((answer: Orders[]) => {
+    this.mainLibraryService.getOrders().subscribe((answer: Order[]) => {
       if (answer != null) {
         this.orders = answer;
       } else {
