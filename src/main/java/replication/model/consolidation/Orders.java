@@ -3,6 +3,7 @@ package replication.model.consolidation;
 
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.data.repository.query.Param;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -10,6 +11,14 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "orders")
+@NamedStoredProcedureQuery(name = "updateOrders",
+        procedureName = "UPDATE_ORDERS", parameters = {
+        @StoredProcedureParameter(name = "status", type = String.class),
+        @StoredProcedureParameter(name = "role", type = String.class),
+        @StoredProcedureParameter( name = "order_id", type = Long.class),
+        @StoredProcedureParameter(name = "book_id", type = Long.class),
+        @StoredProcedureParameter(name = "library_id", type= Long.class)
+})
 @Getter
 @ToString
 public class Orders {

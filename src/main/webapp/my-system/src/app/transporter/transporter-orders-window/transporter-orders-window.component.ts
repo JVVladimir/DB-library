@@ -6,6 +6,11 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Orders} from "../../data/Orders";
 import {LibraryService} from "../../services/LibraryService";
+import {Order} from "../../data/Order";
+import {OrdId} from "../../data/OrdId";
+import {Book} from "../../data/Book";
+import {Reader} from "../../data/Reader";
+import {OrderId} from "../../data/OrderId";
 
 @Component({
   selector: 'app-main-window',
@@ -34,6 +39,8 @@ export class TransporterOrdersWindowComponent implements OnInit {
       table: ['', Validators.compose([
         Validators.required
       ])],
+      book_id: [''],
+      order_id: ['']
     });
   }
 
@@ -46,6 +53,16 @@ export class TransporterOrdersWindowComponent implements OnInit {
       return;
     }  else if (this.selected === 'get') {
       this.getOrdersFromDB();
+    } else if (this.selected === 'update') {
+        const order = new Orders();
+        order.id = new OrderId();
+        order.id.book = this.tableForm.value['book_id'];
+        order.id.id = this.tableForm.value['order_id'];
+        order.status = 'delivered';
+        this.clear();
+        this.mainLibraryService.updateConsolidOrders(order).subscribe((answer: Orders[]) => {
+          this.getOrdersFromDB();
+        });
     }
     this.submitted = false;
   }
@@ -58,6 +75,18 @@ export class TransporterOrdersWindowComponent implements OnInit {
         alert('Ошибка! Данные отсутствуют!')
       }
     });
+  }
+
+
+  dateAsYYYYMMDDHHNNSS(date): string {
+    return date.getFullYear()
+      + '-' + this.leftpad(date.getMonth() + 1, 2)
+      + '-' + this.leftpad(date.getDate(), 2);
+  }
+
+  leftpad(val, resultLength = 2, leftpadChar = '0'): string {
+    return (String(leftpadChar).repeat(resultLength)
+      + String(val)).slice(String(val).length);
   }
 
   clear() {

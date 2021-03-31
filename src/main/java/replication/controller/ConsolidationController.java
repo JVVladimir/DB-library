@@ -4,17 +4,18 @@ package replication.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.hibernate.criterion.Order;
+import org.springframework.web.bind.annotation.*;
 import replication.model.consolidation.Accounting;
 import replication.model.consolidation.BooksInLibrary;
 import replication.model.consolidation.Orders;
+import replication.model.sharing.Reader;
 import replication.repository.consolidation.CAccountingRepository;
 import replication.repository.consolidation.CBooksInLibraryRepository;
 import replication.repository.consolidation.COrdersRepository;
+import replication.repository.master.OrdersRepository;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -25,6 +26,7 @@ import java.util.List;
 public class ConsolidationController {
 
     private final CAccountingRepository accountRepository;
+    private final OrdersRepository mordersRepository;
     private final COrdersRepository ordersRepository;
     private final CBooksInLibraryRepository booksInLibraryRepository;
 
@@ -44,5 +46,13 @@ public class ConsolidationController {
     @GetMapping("/booksInlibs")
     List<BooksInLibrary> findAllBooksInLibrary() {
         return booksInLibraryRepository.findAll();
+    }
+
+    @Operation(summary = "Обновить данные по заказам")
+    @PostMapping("/update/orders")
+    List<Orders> updateOrders(@RequestBody Orders orders, Principal principal) {
+        mordersRepository.updateOrders(orders.getStatus(), principal.getName(), orders.getId().getId(), orders.getId().getBook(), orders.getLibrary() == null? 0L: orders.getLibrary());
+        ordersRepository.updateOrder(orders.getStatus(), principal.getName(), orders.getId().getId(), orders.getId().getBook(),  orders.getLibrary() == null? 0L: orders.getLibrary());
+        return findAllOrders();
     }
 }

@@ -116,10 +116,101 @@
                 <mat-form-field >
                   <mat-select [(value)]="selected" (selectionChange)="clear()" id="table" formControlName="table" [ngClass]="{ 'is-invalid': submitted && logn.table.errors }" >
                     <mat-option value="get">Получить все данные</mat-option>
+                    <mat-option value="add">Вставить запись</mat-option>
+                    <mat-option value="update">Обновить запись</mat-option>
                   </mat-select>
                 </mat-form-field>
                 <span class="focus-input100"></span>
               </div>
+
+              <table class="" *ngIf="selected ==='add'">
+                <h5>Необходимо заполнить следующие поля: </h5>
+                <tr >
+                  <th>
+                    <p  class="input100" > reader_id </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="reader_id" placeholder="Enter reader id"  id="reader_id" formControlName="reader_id" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > library_id </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="library_id" placeholder="Enter library id"  id="library_id" formControlName="library_id" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > book_id </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="book_id" placeholder="Enter book id"  id="book_id" formControlName="book_id" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > status </p>
+                  </th>
+                  <th>
+                    <mat-form-field >
+                      <mat-select  [(value)]="status" (selectionChange)="clear()" id="table_d" formControlName="table_d" [ngClass]="{ 'is-invalid': submitted && logn.table.errors }" placeholder="Статус" >
+                        <mat-option value="issued">Взята</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </th>
+                </tr>
+              </table>
+
+              <table class="" *ngIf="selected ==='update'">
+                <h5>Необходимо заполнить следующие поля: </h5>
+                <tr >
+                  <th>
+                    <p  class="input100" > reader_id </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="reader_id" placeholder="Enter reader id"  id="reader_id" formControlName="reader_id" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > library_id </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="library_id" placeholder="Enter library id"  id="library_id" formControlName="library_id" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > book_id </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="book_id" placeholder="Enter book id"  id="book_id" formControlName="book_id" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > status </p>
+                  </th>
+                  <th>
+                    <mat-form-field >
+                      <mat-select  [(value)]="status" (selectionChange)="clear()" id="table_d_1" formControlName="table_d_1" [ngClass]="{ 'is-invalid': submitted && logn.table.errors }" placeholder="Статус" >
+                        <mat-option value="returned">Возвращена</mat-option>
+                        <mat-option value="lost">Потеряна</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > fine </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="fine" placeholder="Enter fine"  id="fine" formControlName="fine" >
+                  </th>
+                </tr>
+              </table>
 
 
               <div class="container-login100-form-btn" >
@@ -141,36 +232,68 @@
               <table mat-table class="mat-elevation-z8" style="width: 100%" *ngIf="accounts!=null" [dataSource]="accounts">
                 <ng-container matColumnDef="id">
                   <th mat-header-cell *matHeaderCellDef > id </th>
-                  <td mat-cell *matCellDef="let element"> {{element.id['id']}} </td>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.accountingId['id']}} </td>
                 </ng-container>
-                <ng-container matColumnDef="library">
-                  <th mat-header-cell *matHeaderCellDef > id book in lib </th>
-                  <td mat-cell *matCellDef="let element"> {{element.library}} </td>
+                <ng-container matColumnDef="library_name">
+                  <th mat-header-cell *matHeaderCellDef > Название библиотеки </th>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.book.booksInLibraryId.library['name']}} </td>
                 </ng-container>
-                <ng-container matColumnDef="reader">
-                  <th mat-header-cell *matHeaderCellDef > id reader </th>
-                  <td mat-cell *matCellDef="let element"> {{element.id['reader']}} </td>
+                <ng-container matColumnDef="library_address">
+                  <th mat-header-cell *matHeaderCellDef > Адрес библиотеки </th>
+                  <td mat-cell *matCellDef="let element"> {{element.book.booksInLibraryId.library['address']}} </td>
                 </ng-container>
+                <ng-container matColumnDef="book_name">
+                  <th mat-header-cell *matHeaderCellDef > Имя книги </th>
+                  <td mat-cell *matCellDef="let element"> {{element.book.book['name']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="publisher_name">
+                  <th mat-header-cell *matHeaderCellDef > Название издательства </th>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.book.book.publisher['name']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="isbn">
+                  <th mat-header-cell *matHeaderCellDef > isbn </th>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.book.book['isbn']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="reader_name">
+                  <th mat-header-cell *matHeaderCellDef > Имя читателя </th>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.accountingId.reader['name']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="reader_pasp">
+                  <th mat-header-cell *matHeaderCellDef > Паспорт читателя </th>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.accountingId.reader['pasp']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="reader_mail">
+                  <th mat-header-cell *matHeaderCellDef > Почта читателя </th>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.accountingId.reader['mail']}} </td>
+                </ng-container>
+                <ng-container matColumnDef="reader_library_name">
+                  <th mat-header-cell *matHeaderCellDef > Название библиотеки читателя </th>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.accountingId.reader.library['name']}} </td>
+                </ng-container>
+
                 <ng-container matColumnDef="dateExt">
                   <th mat-header-cell *matHeaderCellDef > Дата выдачи </th>
-                  <td mat-cell *matCellDef="let element"> {{element.dateExt }} </td>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element.dateExt }} </td>
                 </ng-container>
+
                 <ng-container matColumnDef="dateRet">
-                  <th mat-header-cell *matHeaderCellDef > Дата возврата </th>
-                  <td mat-cell *matCellDef="let element"> {{element.dateRet}} </td>
+                  <th mat-header-cell *matHeaderCellDef > Дата возврата</th>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element?.dateRet || "" }} </td>
                 </ng-container>
+
                 <ng-container matColumnDef="status">
                   <th mat-header-cell *matHeaderCellDef > Статус </th>
-                  <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element['status']}} </td>
                 </ng-container>
+
                 <ng-container matColumnDef="fine">
                   <th mat-header-cell *matHeaderCellDef > Штраф </th>
-                  <td mat-cell *matCellDef="let element"> {{element.fine}} </td>
+                  <td mat-cell *matCellDef="let element" align="center"> {{element?.fine || ""  }} </td>
                 </ng-container>
+
                 <tr mat-header-row *matHeaderRowDef="accountColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: accountColumns;"></tr>
               </table>
-
             </form>
           </article>
         </div>

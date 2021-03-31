@@ -29,6 +29,7 @@ export class MainOrdersWindowComponent implements OnInit {
   submitted = false;
   selected = '';
   user: User = null;
+  status = 'sent';
 
   orders: Order[] = null;
   orderColumns: string[] = ['id', 'reader_name', 'reader_address','reader_phone', 'reader_mail', 'reader_library_name', 'reader_library_address', 'createDate', 'execDate',
@@ -77,18 +78,18 @@ export class MainOrdersWindowComponent implements OnInit {
         this.getOrdersFromDB();
       });
     } else if (this.selected === 'update') {
-    /*  const order = new Order();
-      order.reader = new Reader()
-      order.reader.id = this.tableForm.value['reader_id'];
+      const order = new Order();
+      order.library = new Library();
+      order.library.id = this.tableForm.value['library_id'];
       order.orderId = new OrdId();
+      order.orderId.id = this.tableForm.value['order_id'];
       order.orderId.book = new Book();
       order.orderId.book.id = this.tableForm.value['book_id'];
-      order.createDate = this.dateAsYYYYMMDDHHNNSS(new Date());
-      order.status = 'accepted';
+      order.status = this.status;
       this.clear();
       this.mainLibraryService.updateOrders(order).subscribe((answer: Order[]) => {
         this.getOrdersFromDB();
-      });*/
+      });
     }
     this.submitted = false;
   }

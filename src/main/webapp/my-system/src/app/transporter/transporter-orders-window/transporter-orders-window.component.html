@@ -64,11 +64,32 @@
                 <mat-form-field >
                   <mat-select [(value)]="selected" (selectionChange)="clear()" id="table" formControlName="table" [ngClass]="{ 'is-invalid': submitted && logn.table.errors }" >
                     <mat-option value="get">Получить все данные</mat-option>
+                    <mat-option value="update">Обновить статус</mat-option>
                   </mat-select>
                 </mat-form-field>
                 <span class="focus-input100"></span>
               </div>
 
+
+              <table class="" *ngIf="selected ==='update'">
+                <h5>Добавьте параметры для поиска или оставьте поля пустыми: </h5>
+                <tr >
+                  <th>
+                    <p  class="input100" > book_id </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="book_id" placeholder="Enter book id"  id="book_id" formControlName="book_id" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > order_id </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="order_id" placeholder="Enter order id"  id="order_id"  formControlName="order_id" >
+                  </th>
+                </tr>
+              </table>
 
               <div class="container-login100-form-btn" >
                 <button class="btn btn-primary" style="background-color: #2880b8; color: white; border-color: #ed8d1c; margin-top: 10px" [disabled]="loading" >

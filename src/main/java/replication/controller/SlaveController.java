@@ -95,8 +95,14 @@ public class SlaveController {
         return readerRepository.save(reader);
     }
 
+    @Operation(summary = "Добавить возвращенную книгу")
+    @PostMapping("/upd/accounts")
+    Accounting updAccounts(@RequestBody Accounting accounting) {
+        accountingRepository.updateAccount(accounting.getStatus(), accounting.getFine(), accounting.getAccountingId().getReader().getId() ,accounting.getBook().getBooksInLibraryId().getId(), accounting.getDateRet());
+        return accounting;
+    }
 
-    @Operation(summary = "Добавить выданную/озвращенную книгу")
+    @Operation(summary = "Добавить выданную книгу")
     @PostMapping("/accounts")
     Accounting addAccounts(@RequestBody Accounting accounting) {
         return accountingRepository.save(accounting);

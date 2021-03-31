@@ -15,6 +15,10 @@ import {Author} from "../data/Author";
 import {Reader} from "../data/Reader";
 import {Orders} from "../data/Orders";
 import {Accounting} from "../data/Accounting";
+import {MAccounting} from "../data/MAccounting";
+import {MAccountingId} from "../data/MAccountingId";
+import {BooksInLibrary} from "../data/BooksInLibrary";
+import {BooksInLibraryId} from "../data/BooksInLibraryId";
 
 @Component({
   selector: 'app-main-window',
@@ -25,10 +29,14 @@ export class MainAccountingWindowComponent implements OnInit {
   tableForm: FormGroup;
   submitted = false;
   selected = '';
+  status='issued';
   user: User = null;
 
-  accounts: Accounting[] = null;
-  accountColumns: string[] = ['id', 'library', 'reader', 'dateExt', 'dateRet', 'status', 'fine'];
+  accounts: MAccounting[] = null;
+  accountColumns: string[] = ['id', 'library_name', 'library_address', 'book_name', 'publisher_name', 'isbn',
+    'reader_name', 'reader_pasp', 'reader_mail', 'reader_library_name',
+    'dateExt', 'dateRet', 'status', 'fine'];
+
 
 
   constructor(public dialog: MatDialog, private formBuilder: FormBuilder, private service: LoginAndRegistrate, private mainLibraryService: MainLibraryService, private router: Router) {
@@ -43,6 +51,11 @@ export class MainAccountingWindowComponent implements OnInit {
       table: ['', Validators.compose([
         Validators.required
       ])],
+      reader_id: [''],
+      library_id: [''],
+      book_id: [''],
+      status: [''],
+      fine: ['']
     });
   }
 
@@ -55,12 +68,70 @@ export class MainAccountingWindowComponent implements OnInit {
       return;
     }  else if (this.selected === 'get') {
       this.getAccountsFromDB();
+    }  else if (this.selected === 'add') {
+      const account = new MAccounting();
+      account.accountingId = new MAccountingId();
+      account.accountingId.reader = new Reader();
+      account.accountingId.reader.id = this.tableForm.value['reader_id'];
+      account.book = new BooksInLibrary()
+      account.book.booksInLibraryId = new BooksInLibraryId();
+      account.book.booksInLibraryId.id = this.tableForm.value['book_id'];
+      account.book.booksInLibraryId.library = new Library();
+      account.book.booksInLibraryId.library.id = this.tableForm.value['library_id'];
+      account.status = this.status;
+      if (account.status === 'issued') {
+        account.dateExt = this.dateAsYYYYMMDDHHNNSS(new Date());
+        this.clear();
+        this.mainLibraryService.addAccounts(account).subscribe((answer: MAccounting[]) => {
+          this.getAccountsFromDB();
+        });
+      }
+    } else if (this.selected === 'update') {
+      const account = new MAccounting();
+      account.accountingId = new MAccountingId();
+      account.accountingId.reader = new Reader();
+      account.accountingId.reader.id = this.tableForm.value['reader_id'];
+      account.book = new BooksInLibrary()
+      account.book.booksInLibraryId = new BooksInLibraryId();
+      account.book.booksInLibraryId.id = this.tableForm.value['book_id'];
+      account.book.booksInLibraryId.library = new Library();
+      account.book.booksInLibraryId.library.id = this.tableForm.value['library_id'];
+      account.status = this.status;
+      if  (account.status === 'returned') {
+        account.dateRet = this.dateAsYYYYMMDDHHNNSS(new Date());
+        account.fine  = this.tableForm.value['fine'];
+        this.clear();
+        this.mainLibraryService.updateAccount(account).subscribe((answer: MAccounting[]) => {
+          this.getAccountsFromDB();
+        });
+      } else if (account.status === 'lost') {
+        account.fine  = this.tableForm.value['fine'];
+        account.dateRet = this.dateAsYYYYMMDDHHNNSS(new Date());
+        this.clear();
+        this.mainLibraryService.updateAccount(account).subscribe((answer: MAccounting[]) => {
+          this.getAccountsFromDB();
+        });
+      }
     }
+
+
     this.submitted = false;
   }
 
+  dateAsYYYYMMDDHHNNSS(date): string {
+    return date.getFullYear()
+      + '-' + this.leftpad(date.getMonth() + 1, 2)
+      + '-' + this.leftpad(date.getDate(), 2);
+  }
+
+  leftpad(val, resultLength = 2, leftpadChar = '0'): string {
+    return (String(leftpadChar).repeat(resultLength)
+      + String(val)).slice(String(val).length);
+  }
+
+
   private getAccountsFromDB() {
-    this.mainLibraryService.getAccounts().subscribe((answer: Accounting[]) => {
+    this.mainLibraryService.getMAccounts().subscribe((answer: MAccounting[]) => {
       if (answer != null) {
         this.accounts = answer;
       } else {

@@ -10,6 +10,14 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "orders")
+@NamedStoredProcedureQuery(name = "updateOrders",
+        procedureName = "UPDATE_ORDERS", parameters = {
+        @StoredProcedureParameter(name = "status", type = String.class),
+        @StoredProcedureParameter(name = "role", type = String.class),
+        @StoredProcedureParameter( name = "order_id", type = Long.class),
+        @StoredProcedureParameter(name = "book_id", type = Long.class),
+        @StoredProcedureParameter(name = "library_id", type= Long.class)
+})
 @Getter
 @ToString
 public class Orders {

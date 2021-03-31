@@ -9,8 +9,10 @@ import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.*;
 import replication.model.sharing.*;
 import replication.repository.consolidation.CBooksInLibraryRepository;
+import replication.repository.consolidation.COrdersRepository;
 import replication.repository.master.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,6 +38,9 @@ public class MasterController {
     private final WorkRepository workRepository;
     private final PublishedWorkRepository publishedWorkRepository;
     private final OrdersRepository ordersRepository;
+    private final COrdersRepository cordersRepository;
+    private final AccountingRepository accountingRepository;
+
 
     @Operation(summary = "Получить книги")
     @GetMapping("/books")
@@ -53,6 +58,38 @@ public class MasterController {
     @PostMapping("/orders")
     Orders addOrders(@RequestBody Orders orders) {
         return ordersRepository.save(orders);
+    }
+
+    @Operation(summary = "Изменить заказ")
+    @PostMapping("/upd/orders")
+    Orders updOrders(@RequestBody Orders orders,  Principal principal) {
+        Long libId = 0L;
+        if (orders.getLibrary()!=null) {
+            libId = orders.getLibrary().getId();
+        }
+        ordersRepository.updateOrders(orders.getStatus(), principal.getName(), orders.getOrderId().getId(), orders.getOrderId().getBook().getId(), libId == null? 0L: libId);
+        cordersRepository.updateOrder(orders.getStatus(), principal.getName(), orders.getOrderId().getId(), orders.getOrderId().getBook().getId(), libId == null? 0L: libId);
+        return orders;
+    }
+
+    @Operation(summary = "Добавить выданную книгу")
+    @PostMapping("/accounts")
+    Accounting addAccounts(@RequestBody Accounting accounting) {
+        return accountingRepository.save(accounting);
+    }
+
+
+    @Operation(summary = "Добавить возвращенную книгу")
+    @PostMapping("/upd/accounts")
+    Accounting updAccounts(@RequestBody Accounting accounting) {
+        accountingRepository.updateAccount(accounting.getStatus(), accounting.getFine(), accounting.getAccountingId().getReader().getId() ,accounting.getBook().getBooksInLibraryId().getId(), accounting.getDateRet());
+        return accounting;
+    }
+
+    @Operation(summary = "Получить данные по всем выдачам книг")
+    @GetMapping("/accounts")
+    List<Accounting> findAccounts() {
+        return accountingRepository.findAll();
     }
 
     @Operation(summary = "Получить автора")

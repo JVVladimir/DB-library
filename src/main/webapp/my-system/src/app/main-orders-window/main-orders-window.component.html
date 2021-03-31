@@ -157,6 +157,14 @@
                 </tr>
                 <tr >
                   <th>
+                    <p  class="input100" > book_id </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="book_id" placeholder="Enter book id"  id="book_id" formControlName="book_id" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
                     <p  class="input100" > library_id </p>
                   </th>
                   <th>
@@ -168,7 +176,12 @@
                     <p  class="input100" > status </p>
                   </th>
                   <th>
-                    <input class="input100 form-control" type="text" name="status" placeholder="Enter status"  id="status" formControlName="status" >
+                    <mat-form-field >
+                      <mat-select  [(value)]="status" (selectionChange)="clear()" id="table_d" formControlName="table_d" [ngClass]="{ 'is-invalid': submitted && logn.table.errors }" placeholder="Статус" >
+                        <mat-option value="sent">Отправить</mat-option>
+                        <mat-option value="refused">Отменить</mat-option>
+                      </mat-select>
+                    </mat-form-field>
                   </th>
                 </tr>
               </table>

@@ -14,6 +14,7 @@ import {MAccounting} from "../../data/MAccounting";
 import {BooksInLibrary} from "../../data/BooksInLibrary";
 import {BooksInLibraryId} from "../../data/BooksInLibraryId";
 import {MAccountingId} from "../../data/MAccountingId";
+import {Library} from "../../data/Library";
 
 @Component({
   selector: 'app-main-window',
@@ -24,6 +25,7 @@ export class LibraryAccountingWindowComponent implements OnInit {
   tableForm: FormGroup;
   submitted = false;
   selected = '';
+  status='issued';
   user: User = null;
 
   accounts: MAccounting[] = null;
@@ -45,8 +47,10 @@ export class LibraryAccountingWindowComponent implements OnInit {
         Validators.required
       ])],
       reader_id: [''],
+      library_id: [''],
       book_id: [''],
-      status: ['']
+      status: [''],
+      fine: ['']
     });
   }
 
@@ -61,18 +65,48 @@ export class LibraryAccountingWindowComponent implements OnInit {
       this.getAccountsFromDB();
     }  else if (this.selected === 'add') {
       const account = new MAccounting();
-      account.id = new MAccountingId();
-      account.id.reader = new Reader();
-      account.id.reader.id = this.tableForm.value['reader_id'];
+      account.accountingId = new MAccountingId();
+      account.accountingId.reader = new Reader();
+      account.accountingId.reader.id = this.tableForm.value['reader_id'];
       account.book = new BooksInLibrary()
       account.book.booksInLibraryId = new BooksInLibraryId();
       account.book.booksInLibraryId.id = this.tableForm.value['book_id'];
-      account.dateExt = this.dateAsYYYYMMDDHHNNSS(new Date());
-      account.status = this.tableForm.value['status'];
-      this.clear();
-      this.mainLibraryService.addAccounts(account).subscribe((answer: MAccounting[]) => {
-        this.getAccountsFromDB();
-      });
+      account.book.booksInLibraryId.library = new Library();
+      account.book.booksInLibraryId.library.id = this.tableForm.value['library_id'];
+      account.status = this.status;
+      if (account.status === 'issued') {
+        account.dateExt = this.dateAsYYYYMMDDHHNNSS(new Date());
+        this.clear();
+        this.mainLibraryService.addAccounts(account).subscribe((answer: MAccounting[]) => {
+          this.getAccountsFromDB();
+        });
+      }
+      } else if (this.selected === 'update') {
+        const account = new MAccounting();
+        account.accountingId = new MAccountingId();
+        account.accountingId.reader = new Reader();
+        account.accountingId.reader.id = this.tableForm.value['reader_id'];
+        account.book = new BooksInLibrary()
+        account.book.booksInLibraryId = new BooksInLibraryId();
+        account.book.booksInLibraryId.id = this.tableForm.value['book_id'];
+        account.book.booksInLibraryId.library = new Library();
+        account.book.booksInLibraryId.library.id = this.tableForm.value['library_id'];
+        account.status = this.status;
+        if  (account.status === 'returned') {
+          account.dateRet = this.dateAsYYYYMMDDHHNNSS(new Date());
+          account.fine  = this.tableForm.value['fine'];
+          this.clear();
+          this.mainLibraryService.updateAccount(account).subscribe((answer: MAccounting[]) => {
+            this.getAccountsFromDB();
+          });
+        } else if (account.status === 'lost') {
+          account.fine  = this.tableForm.value['fine'];
+          account.dateRet = this.dateAsYYYYMMDDHHNNSS(new Date());
+          this.clear();
+          this.mainLibraryService.updateAccount(account).subscribe((answer: MAccounting[]) => {
+            this.getAccountsFromDB();
+          });
+        }
     }
     this.submitted = false;
   }

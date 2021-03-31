@@ -16,6 +16,7 @@ import {AuthorsOfBooks} from "../data/AuthorsOfBooks";
 import {BooksInLibrary} from "../data/BooksInLibrary";
 import {Order} from "../data/Order";
 import {MAccounting} from "../data/MAccounting";
+import {Orders} from "../data/Orders";
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -83,7 +84,13 @@ export class LibraryService {
     return this.httpClient.post(this.customersUrl + "accounts", accounting, httpOptions);
   }
 
+  updateAccount(accounting: MAccounting): Observable<any> {
+    return this.httpClient.post(this.customersUrl + "upd/accounts", accounting, httpOptions);
+  }
 
+  updateConsolidOrders(order: Orders): Observable<any> {
+    return this.httpClient.post(this.consolidationUrl + "update/orders", order, httpOptions)
+  }
 
   getBooksInLib():  Observable<any>  {
     return this.httpClient.get(this.customersUrl + "booksInLibrary", httpOptions);

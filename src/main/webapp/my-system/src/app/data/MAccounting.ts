@@ -4,7 +4,7 @@ import {BooksInLibrary} from "./BooksInLibrary";
 import {MAccountingId} from "./MAccountingId";
 
 export class MAccounting {
-  id:	MAccountingId;
+  accountingId:	MAccountingId;
   book: BooksInLibrary;
   dateExt:	string;
   dateRet:	string;

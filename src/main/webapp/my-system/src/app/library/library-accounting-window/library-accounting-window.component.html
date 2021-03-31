@@ -117,11 +117,102 @@
                   <mat-select [(value)]="selected" (selectionChange)="clear()" id="table" formControlName="table" [ngClass]="{ 'is-invalid': submitted && logn.table.errors }" >
                     <mat-option value="get">Получить все данные</mat-option>
                     <mat-option value="add">Вставить запись</mat-option>
+                    <mat-option value="update">Обновить запись</mat-option>
                   </mat-select>
                 </mat-form-field>
                 <span class="focus-input100"></span>
               </div>
 
+
+
+              <table class="" *ngIf="selected ==='add'">
+                <h5>Необходимо заполнить следующие поля: </h5>
+                <tr >
+                  <th>
+                    <p  class="input100" > reader_id </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="reader_id" placeholder="Enter reader id"  id="reader_id" formControlName="reader_id" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > library_id </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="library_id" placeholder="Enter library id"  id="library_id" formControlName="library_id" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > book_id </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="book_id" placeholder="Enter book id"  id="book_id" formControlName="book_id" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > status </p>
+                  </th>
+                  <th>
+                    <mat-form-field >
+                      <mat-select  [(value)]="status" (selectionChange)="clear()" id="table_d" formControlName="table_d" [ngClass]="{ 'is-invalid': submitted && logn.table.errors }" placeholder="Статус" >
+                        <mat-option value="issued">Взята</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </th>
+                </tr>
+              </table>
+
+              <table class="" *ngIf="selected ==='update'">
+                <h5>Необходимо заполнить следующие поля: </h5>
+                <tr >
+                  <th>
+                    <p  class="input100" > reader_id </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="reader_id" placeholder="Enter reader id"  id="reader_id" formControlName="reader_id" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > library_id </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="library_id" placeholder="Enter library id"  id="library_id" formControlName="library_id" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > book_id </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="book_id" placeholder="Enter book id"  id="book_id" formControlName="book_id" >
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > status </p>
+                  </th>
+                  <th>
+                    <mat-form-field >
+                      <mat-select  [(value)]="status" (selectionChange)="clear()" id="table_d_1" formControlName="table_d_1" [ngClass]="{ 'is-invalid': submitted && logn.table.errors }" placeholder="Статус" >
+                        <mat-option value="returned">Возвращена</mat-option>
+                        <mat-option value="lost">Потеряна</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </th>
+                </tr>
+                <tr >
+                  <th>
+                    <p  class="input100" > fine </p>
+                  </th>
+                  <th>
+                    <input class="input100 form-control" type="text" name="fine" placeholder="Enter fine"  id="fine" formControlName="fine" >
+                  </th>
+                </tr>
+              </table>
 
               <div class="container-login100-form-btn" >
                 <button class="btn btn-primary" style="background-color: #2880b8; color: white; border-color: #ed8d1c; margin-top: 10px" [disabled]="loading" >
